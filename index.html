@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>推理パズルエディタ</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Subaru Saito">
+    <meta name="description" content="Suiri Puzzle Editor Tool">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/suiri.css">
+
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="js/classes.js"></script>
+    <script defer src="js/front.js"></script>
+    <script defer src="js/init.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div id="header_in">
+        <h1>推理パズルエディタ</h1>
+        <p>マトリックス型推理パズル作成支援ツール</p>
+        <p><a href="howtouse.html" target="_blank">操作方法</a></p>
+      </div>
+    </header>
+
+    <main>
+      <form id="top_form">
+        <!-- 新規作成フォーム -->
+        <div id="newfile_form">
+          <label for="newfile_elems">要素数</label>
+          <input type="number" id="newfile_elems" title="要素数を指定します"
+                 min="2" max="10" step="1" value="3">
+          <br>
+          <label for="newfile_items">項目数</label>
+          <input type="number" id="newfile_items" title="項目数を指定します"
+                 min="2" max="30" step="1" value="5">
+          <br>
+          <input type="button" id="newfile_ok" value="新規作成">
+        </div>
+      
+        <!-- ファイルメニュー -->
+        <div id="filemenu_form">
+          <label for="filemenu">ファイル</label>
+          <select id="filemenu" name="filemenu">
+            <option value="default">--</option>
+            <option value="writeimg">画像出力</option>
+            <option value="writeurl">URL形式出力</option>
+            <option value="readurl">URL形式読込</option>
+            <option value="readjson">JSON形式読込</option>
+            <option value="writejson">JSON形式出力</option>
+          </select>
+          <input type="button" id="filemenu_go" value="実行">
+          <br>
+
+          <!-- サイズ設定フォーム -->
+          <label for="setsize">　サイズ</label>
+          <input type="number" id="setsize" title="サイズを設定します"
+                 min="8" max="64" step="1" value="24">
+        </div>
+      </form>
+
+      <!-- キャンバス本体 -->
+      <div id="canvas_wrapper">
+        <canvas width="350" height="350">
+          canvasタグ未対応です。
+        </canvas>
+      </div>
+
+      <!-- 下編集フォーム -->
+      <form id="bottom_form"> 
+        <button type="button" name="undo" id="opform_undo" title="操作を一つ戻します">
+          <i class="fas fa-undo"></i>
+        </button>
+        <button type="button" name="redo" id="opform_redo" title="操作を一つ進めます">
+          <i class="fas fa-redo"></i>
+        </button>
+      </form>
+    </main>
+
+    <footer>
+      <div id="footer_in">
+        <p><a href="https://subaru-saito1.github.io/subaru_home/index.html">トップに戻る</a></p>
+        <p><small> Copyright 2021~. Subaru Saito, All Rights Reserved. </small></p>
+      </div>
+    </footer>
+
+  </body>
+</html>

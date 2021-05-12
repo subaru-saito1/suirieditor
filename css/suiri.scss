@@ -1,0 +1,101 @@
+@charset "utf-8";
+
+
+/* カラーリング設定 */
+$bgcolor: #ccffcc;
+$subcolor: #333333;
+$hlcolor: rgb(28, 187, 49);
+
+
+/* =========================================
+ * ページ全体の設定
+ * ========================================= */
+
+/* 背景色設定 */
+body {
+  background-color: $bgcolor;
+  /* background-image: url('background.png'); */
+  /* background-repeat: repeat; */ 
+  width: 100%;
+  margin: 0px;
+}
+/* ヘッダ・フッタ色設定 */
+header, footer {
+  background-color: $subcolor;
+  padding: 12px;
+  color: #ffffff;
+}
+/* 全体のセンタリング */
+main, #header_in, #footer_in {
+  margin: 0 auto;
+}
+
+/* ヘッダタイトル設定 */
+h1 {
+  margin: 0px;
+  padding: 15px 30px 0px;
+  font-weight: normal;
+  font-size: 3em;
+}
+h1::first-letter {
+  color: $hlcolor;
+}
+
+/* ヘッダ・フッタ中身設定 */
+header p, footer p {
+  text-align: right;
+  margin: 5px;
+}
+header a:link, footer a:link { 
+  color: lightgreen;
+}
+header a:visited, footer a:visited {
+  color: limegreen;
+}
+
+/* サイズ調整 */
+main, #header_in, #footer_in {
+  width: 650px;
+}
+main {
+  min-height: 75vh;
+}
+footer {
+  min-height: 5vh;
+}
+
+
+/* ======================================
+ * メニューフォーム設定
+ * ===================================== */ 
+
+#top_form {
+  padding: 10px;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-around;
+  width: 500px;
+}
+
+#bottom_form {
+  margin: 10px auto;
+  width: 120px;
+}
+#bottom_form button {
+  box-sizing: border-box;
+  width: 45px;
+  padding: 10px 6px;
+  margin: 5px;
+}
+
+
+/* ======================================
+ * キャンバス設定
+ * ====================================== */
+
+#canvas_wrapper {
+  text-align: center;
+}
+canvas {
+  display: inline-block;
+}
