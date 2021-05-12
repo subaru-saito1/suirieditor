@@ -79,12 +79,12 @@ footer {
 
 #bottom_form {
   margin: 10px auto;
-  width: 120px;
+  display: flex;
+  justify-content: space-around;
+  width: 500px;
 }
 #bottom_form button {
-  box-sizing: border-box;
-  width: 45px;
-  padding: 10px 6px;
+  padding: 10px 15px;
   margin: 5px;
 }
 

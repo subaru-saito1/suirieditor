@@ -69,14 +69,32 @@
         </canvas>
       </div>
 
+
+
+
       <!-- 下編集フォーム -->
-      <form id="bottom_form"> 
-        <button type="button" name="undo" id="opform_undo" title="操作を一つ戻します">
-          <i class="fas fa-undo"></i>
-        </button>
-        <button type="button" name="redo" id="opform_redo" title="操作を一つ進めます">
-          <i class="fas fa-redo"></i>
-        </button>
+      <form id="bottom_form">
+        <div id="ansmode_switch">
+          <input type="radio" name="modeselect" id="opform_qmode" value="question" checked
+                 title="問題入力モード(F2)">
+          <label for="opform_qmode">問題入力</label>
+          <br>
+          <input type="radio" name="modeselect" id="opform_amode" value="answer"
+                 title="解答入力モード(F2)">
+          <label for="opform_amode">解答入力</label>
+        </div> 
+        <div id="bottom_buttons">
+          <button type="button" name="undo" id="opform_undo" title="操作を一つ戻します">
+            <i class="fas fa-undo"></i>
+          </button>
+          <button type="button" name="redo" id="opform_redo" title="操作を一つ進めます">
+            <i class="fas fa-redo"></i>
+          </button>
+          <button type="button" name="ansclear" id="opform_clear" title="解答を消去します">
+            解答消去
+          </button>
+        </div>
+        
       </form>
     </main>
 
