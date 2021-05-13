@@ -11,6 +11,9 @@
 
 // グローバルオブジェクト設定
 let Suiripuz = {}
+
+Suiripuz.board = new Board();
+console.log(Suiripuz.board);
 /*
 Suiripuz.astack = new ActionStack();   // アクションスタック作成
 Suiripuz.board  = new Board();         // 初期盤面の作成
