@@ -12,12 +12,57 @@ function newFile(evt) {
   console.log('新規作成');
 }
 
+
 /**
  * メニュー実行
  */
 function fileMenu(evt) {
-  console.log('ファイルメニュー実行');
+  const menu = $('#filemenu').val();
+  if (menu === 'writeimg') {
+    imgWrite();
+  } else if (menu === 'writeurl') {
+    urlWrite();
+  } else if (menu === 'readurl') {
+    urlRead();
+  } else if (menu === 'writejson') {
+    jsonWrite();
+  } else if (menu === 'readjson') {
+    jsonRead();
+  }
 }
+
+/**
+ * 画像出力 
+ */
+function imgWrite() {
+  console.log('画像出力');
+}
+/**
+ * URL出力
+ */
+function urlWrite() {
+  console.log('URL出力')
+}
+/**
+ * URL読込
+ */
+ function urlRead() {
+  console.log('URL読込')
+}
+/**
+ * JSON出力
+ */
+ function jsonWrite() {
+  console.log('JSON出力')
+}
+/**
+ * JSON読込
+ */
+ function jsonRead() {
+  console.log('JSON読込')
+}
+
+
 
 /**
  * サイズ変更
