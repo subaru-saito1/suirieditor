@@ -9,7 +9,12 @@
  * 新規盤面作成
  */
 function newFile(evt) {
-  console.log('新規作成');
+  const numElems = $('#newfile_elems').val();
+  const numItems = $('#newfile_items').val();
+  Suiripuz.board = new Board(numElems, numItems);
+  console.log(Suiripuz.board);
+  // to do: アクションスタック初期化
+  // to do: 再描画処理
 }
 
 
