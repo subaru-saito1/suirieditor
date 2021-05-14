@@ -11,10 +11,11 @@
 function newFile(evt) {
   const numElems = $('#newfile_elems').val();
   const numItems = $('#newfile_items').val();
+  // 盤面新規作成
   Suiripuz.board = new Board(numElems, numItems);
-  console.log(Suiripuz.board);
   // to do: アクションスタック初期化
-  // to do: 再描画処理
+  // 盤面再描画
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
 
@@ -73,7 +74,18 @@ function urlWrite() {
  * サイズ変更
  */
 function setSize(evt) {
-  console.log('サイズ変更');
+  let csize = $('#setsize').val() - 0;
+  const mincsize = $('#setsize').attr('min') - 0;
+  const maxcsize = $('#setsize').attr('max') - 0;
+  // 範囲バリデーション
+  if (csize < mincsize) {
+    csize = mincsize;
+  } else if (csize > maxcsize) {
+    csize = maxcsize;
+  }
+  // サイズ変更と再描画
+  Suiripuz.drawer.csize = csize;
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
 
