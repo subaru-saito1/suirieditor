@@ -13,21 +13,18 @@
 let Suiripuz = {}
 
 Suiripuz.board = new Board();
-console.log(Suiripuz.board);
+Suiripuz.drawer = new Drawer();
 /*
 Suiripuz.astack = new ActionStack();   // アクションスタック作成
 Suiripuz.board  = new Board();         // 初期盤面の作成
 Suiripuz.config = initConfig();        // 全般設定類
 Suiripuz.drawer = new Drawer();        // 描画クラス
-
-setEventHandlers();   // イベントハンドラを仕掛ける
-Suiripuz.drawer.redraw(Suiripuz.board);  // 初回同期
 */
 
 // イベントハンドラ設定
 setEventHundler();
 // 初回描画
-drawCanvasKari();
+Suiripuz.drawer.drawCanvas(Suiripuz.board);
 
 
 /**
