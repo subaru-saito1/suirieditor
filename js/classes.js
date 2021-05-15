@@ -65,6 +65,63 @@ class Board {
       }
     }
   }
+
+  /**
+   * JSON形式オブジェクトを読込
+   */
+  jsonRead(obj) {
+    this.numElems = obj.numElems;
+    this.numItems = obj.numItems;
+    this.maxCellSize = this.numItems * (this.numElems - 1);
+    // 各要素、項目をコピー
+    this.elements = []
+    for (let objel of obj.elements) {
+      let el = {}
+      el.contents = objel.contents;
+      el.subelements = [];
+      el.items = objel.items.slice();
+      // サブ要素のコピー
+      for (let objsubel of objel.subelements) {
+        let subel = {}
+        subel.type = objsubel.type;
+        if (subel.type === 0) {
+          subel.contents = objsubel.contents;
+        } else {
+          subel.contents1 = objsubel.contents1;
+          subel.contents2 = objsubel.contents2;
+        }
+        subel.start = objsubel.start;
+        subel.size = objsubel.size;
+        el.subelements.push(subel);
+      }
+      this.elements.push(el);
+    }
+    // 最大項目長を計算
+    this.maxItemSize = this.calcItemSize();
+    this.initCells();
+  }
+
+  /**
+   * 項目の最大長を計算
+   */
+  calcItemSize() {
+    const fontratio = 0.8;   // 1文字あたり何スペースにするか
+    let maxitemsize = this.minItemSize;
+    for (let el of this.elements) {
+      let initsize = 0;
+      // サブカテゴリ分の幅を考慮
+      if (el.subelements.length > 0) {
+        initsize = 1;
+      }
+      for (let it of el.items) {
+        let itemsize = initsize + it.length * fontratio;
+        if (itemsize > maxitemsize) {
+          maxitemsize = itemsize;
+        }
+      }
+    }
+    return maxitemsize;
+  }
 }
 
 
@@ -289,7 +346,7 @@ class Drawer {
       if (subel.type === 0) {
         console.log(subel.contents);
       } else {
-        console.log(subel.contents1, subel.content2);
+        console.log(subel.contents1, subel.contents2);
       }
     }
   }
@@ -308,7 +365,7 @@ class Drawer {
       if (subel.type === 0) {
         console.log(subel.contents);
       } else {
-        console.log(subel.contents1, subel.content2);
+        console.log(subel.contents1, subel.contents2);
       }
     }
   }

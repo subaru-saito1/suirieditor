@@ -129,14 +129,14 @@ canvas {
 }
 
 #popup_writeimg, #popup_writejson, #popup_readjson {
-  width: 40%;
-  height: 13%;
-  left: 30%;
+  width: 280px;
+  height: 140px;
+  left: calc(50% - 140px);
   top: 30%;
 }
 #popup_writeurl, #popup_readurl {
-  width: 40%;
-  height: 18%;
-  left: 30%;
+  width: 280px;
+  height: 180px;
+  left: calc(50% - 140px);
   top: 30%;
 }
