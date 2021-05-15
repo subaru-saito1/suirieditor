@@ -41,9 +41,22 @@ function fileMenu(evt) {
  * 画像出力 
  */
 function imgWrite() {
-  console.log('画像出力');
+  const filename = $('#writeimg_filename').val();
+  const canvas = document.querySelector('canvas');
+  // todo: カーソルを表示しないで描画
+  // 画像保存（一時的にダウンロード用リンクを生成）
+  canvas.toBlob((blob) => {
+    let dlanchor = document.createElement('a');
+    dlanchor.href = window.URL.createObjectURL(blob);
+    dlanchor.download = filename;
+    dlanchor.click();
+    dlanchor.remove();
+  });
+  // todo: カーソルを表示して再描画
+  // ポップアップを閉じる
   $('#popup_writeimg').removeClass('active');
 }
+
 /**
  * URL出力
  */
