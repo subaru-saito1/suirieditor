@@ -53,6 +53,21 @@ function setEventHundler() {
   $('canvas').on('contextmenu', clickBoard);  // 右クリック上書き
   $('canvas').keydown(keyDownBoard);
   $('canvas').blur(blurBoard);
+  
+  // 各種ポップアップ
+  $('#writeimg_ok').click(imgWrite);
+  $('#writeurl_ok').click(urlWrite);
+  $('#readurl_ok').click(urlRead);
+  $('#writejson_ok').click(jsonWrite);
+  $('#readjson_ok').click(jsonRead);
+  // キャンセルボタン（ポップアップウィンドウを閉じる）
+  $('#writeimg_ng, #readurl_ng, #writejson_ng, #readjson_ng').click(closePopup);
+  // テキスト入力用インタフェース
+  /*
+  $('#popup_itemform').click(inputItem);
+  $('#popup_elementform').click(inputElement);
+  $('#popup_subelform').click(inputSubel);
+  */
 
   // ページ離脱時の警告
   window.addEventListener('beforeunload', function(evt) {

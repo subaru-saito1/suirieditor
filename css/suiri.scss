@@ -99,3 +99,44 @@ footer {
 canvas {
   display: inline-block;
 }
+
+
+/* =======================================
+ *  ポップアップメニュー設定
+ * ====================================== */
+
+.popup_overlay {
+  visibility: hidden;
+  position: absolute;
+  background-image: linear-gradient(rgba(224,224,224,0.75), rgba(160,160,160,0.75));
+  border: 3px solid #333333;
+  border-radius: 10px;
+  text-align: center;
+  width: 50%;
+  height: 20%;
+  left: 25%;
+  top: 40%;
+}
+.popup_overlay.active {
+  visibility: visible;
+}
+.popup_content input[type="button"] {
+  padding: 5px;
+  margin: 5px;
+}
+.popup_content textarea {
+  resize: none;
+}
+
+#popup_writeimg, #popup_writejson, #popup_readjson {
+  width: 40%;
+  height: 13%;
+  left: 30%;
+  top: 30%;
+}
+#popup_writeurl, #popup_readurl {
+  width: 40%;
+  height: 18%;
+  left: 30%;
+  top: 30%;
+}
