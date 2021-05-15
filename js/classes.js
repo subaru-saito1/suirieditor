@@ -122,6 +122,17 @@ class Board {
     }
     return maxitemsize;
   }
+
+  /**
+   * 現在の盤面をJSON形式の文字列で返す 
+   */
+  jsonWrite() {
+    let obj = {}
+    obj.numElems = this.numElems;
+    obj.numItems = this.numItems;
+    obj.elements = this.elements;
+    return JSON.stringify(obj, null, 2);
+  }
 }
 
 

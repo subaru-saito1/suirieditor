@@ -76,7 +76,14 @@ function urlRead() {
  * JSON出力
  */
 function jsonWrite() {
-  console.log('JSON出力')
+  const filename = $('#writejson_filename').val();
+  const jsonstr = Suiripuz.board.jsonWrite();
+  const blob = new Blob([jsonstr], {type:"text/json"});
+  let dlanchor = document.createElement('a');
+  dlanchor.href = window.URL.createObjectURL(blob);
+  dlanchor.download = filename;
+  dlanchor.click();
+  dlanchor.remove();
   $('#popup_writejson').removeClass('active');
 }
 /**
