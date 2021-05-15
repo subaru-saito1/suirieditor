@@ -105,7 +105,7 @@ class Board {
    * 項目の最大長を計算
    */
   calcItemSize() {
-    const fontratio = 0.8;   // 1文字あたり何スペースにするか
+    const fontratio = Suiripuz.drawer.fontratio;
     let maxitemsize = this.minItemSize;
     for (let el of this.elements) {
       let initsize = 0;
@@ -156,6 +156,8 @@ class Drawer {
       'bd': '#333333',
       'in': '#008000',
     };
+    this.fontratio = 0.7;
+    this.fontdivide = 1.6;
   }
 
   /**
@@ -324,22 +326,62 @@ class Drawer {
    */
   drawItem(board, ctx, ofsx, ofsy, width, height, index, mode) {
     this.drawRect(ctx, ofsx, ofsy, width, height);
-    // to do: 項目テキスト描画
+    // 項目の取得
     let elidx;
     if (mode === 'yoko') {
       elidx = parseInt(index / board.numItems);
     } else {
       elidx = board.numElems - parseInt(index / board.numItems) - 1;
     }
+    // 項目テキスト描画（右揃え、下揃え）
     let contents = board.elements[elidx].items[index % board.numItems]
-    console.log(contents);
+    if (mode === 'yoko') {
+      let cx = ofsx + (board.maxItemSize - (contents.length - 0.5) * this.fontratio) * this.csize;
+      let cy = ofsy + this.csize / 2;
+      for (let c of contents) {
+        this.drawChar(ctx, cx, cy, c);
+        cx += this.csize * this.fontratio;
+      }
+    } else {
+      let cx = ofsx + this.csize / 2;
+      let cy = ofsy + (board.maxItemSize - (contents.length - 0.5) * this.fontratio) * this.csize;
+      for (let c of contents) {
+        // 漢数字に変換
+        if (this.isdigit(c)) {
+          c = this.numKanjiConvert(c);
+        }
+        this.drawChar(ctx, cx, cy, c);
+        cy += this.csize * this.fontratio;
+      }
+    }
   }
   /**
    * 要素の中身描画関数
    */
   drawContents(board, ctx, index, ofsx, ofsy, mode) {
-    // todo: 要素テキスト描画
-    console.log(board.elements[index].contents)
+    // 項目テキスト描画（中央寄せ）
+    let contents = board.elements[index].contents;
+    if (mode === 'yoko') {
+      let cx = ofsx + (board.numItems * this.csize) / 2;
+      cx -= (contents.length / 2 - 0.5) * this.csize * this.fontratio;
+      let cy = ofsy + this.csize / 2;
+      for (let c of contents) {
+        this.drawChar(ctx, cx, cy, c); 
+        cx += this.csize * this.fontratio;
+      }
+    } else {
+      let cx = ofsx + this.csize / 2;
+      let cy = ofsy + (board.numItems * this.csize) / 2;
+      cy -= (contents.length / 2 - 0.5) * this.csize * this.fontratio;
+      for (let c of contents) {
+        // 漢数字に変換
+        if (this.isdigit(c)) {
+          c = this.numKanjiConvert(c);
+        }
+        this.drawChar(ctx, cx, cy, c);
+        cy += this.csize * this.fontratio;
+      }
+    }
   }
 
   /**
@@ -353,14 +395,46 @@ class Drawer {
       let width = this.csize;
       let height = subel.size * this.csize;
       this.drawRect(ctx, sbofsx, sbofsy, width, height);
-      // todo: サブカテゴリ左テキスト描画
+      // サブカテゴリ左テキスト描画（中央寄せ）
       if (subel.type === 0) {
-        console.log(subel.contents);
+        let cx = sbofsx + this.csize / 2;
+        let cy = sbofsy + height / 2;
+        cy -= (subel.contents.length / 2 - 0.5) * this.csize * this.fontratio;
+        for (let c of subel.contents) {
+          this.drawContentsTate(ctx, cx, cy, c);
+        }
+      // サブカテゴリ左テキスト描画（上下寄せ）
       } else {
-        console.log(subel.contents1, subel.contents2);
+        let cx = sbofsx + this.csize / 2;
+        let cy = sbofsy + this.csize / 2;
+        // 前半
+        this.drawChar(ctx, cx, cy, '↑');
+        cy += this.csize * this.fontratio;
+        for (let c of subel.contents1) {
+          this.drawContentsTate(ctx, cx, cy, c);
+        }
+        // 後半
+        cy = sbofsy + height - (subel.contents2.length + 1 - 0.5) * this.csize * this.fontratio;
+        for (let c of subel.contents2) {
+          this.drawContentsTate(ctx, cx, cy, c);
+        }
+        cy = sbofsy + height - 0.5 * this.csize * this.fontratio;
+        this.drawChar(ctx, cx, cy, '↓');
       }
     }
   }
+  /**
+   * 縦書き用補助関数
+   */
+  drawContentsTate(ctx, cx, cy, c) {
+    // 漢数字に変換
+    if (this.isdigit(c)) {
+      c = this.numKanjiConvert(c);
+    }
+    this.drawChar(ctx, cx, cy, c);
+    cy += this.csize * this.fontratio;
+  }
+  
   /**
    * サブ要素描画関数（上側）
    */
@@ -374,9 +448,29 @@ class Drawer {
       this.drawRect(ctx, sbofsx, sbofsy, width, height);
       // todo: サブカテゴリ上テキスト描画
       if (subel.type === 0) {
-        console.log(subel.contents);
+        let cx = sbofsx + width / 2 - (subel.contents.length / 2 - 0.5) * this.csize * this.fontratio;
+        let cy = sbofsy + this.csize / 2;
+        for (let c of subel.contents) {
+          this.drawChar(ctx, cx, cy, c);
+          cx += this.csize * this.fontratio;
+        }
       } else {
-        console.log(subel.contents1, subel.contents2);
+        let cy = sbofsy + this.csize / 2;
+        // 前半
+        let cx = sbofsx + this.csize / 2;
+        this.drawChar(ctx, cx, cy, '←');
+        cx += this.csize * this.fontratio;
+        for (let c of subel.contents1) {
+          this.drawChar(ctx, cx, cy, c);
+          cx += this.csize * this.fontratio;
+        }
+        // 後半
+        cx = sbofsx + width - (subel.contents2.length + 0.5) * this.csize * this.fontratio;
+        for (let c of subel.contents2) {
+          this.drawChar(ctx, cx, cy, c); 
+          cx += this.csize * this.fontratio;
+        }
+        this.drawChar(ctx, cx, cy, '→');
       }
     }
   }
@@ -389,4 +483,33 @@ class Drawer {
     ctx.lineWidth = 1;
     ctx.fillStyle = this.colors.in;
   }
+
+  /**
+   * 指定された座標を中心に文字を書く
+   */
+  drawChar(ctx, x, y, ch) {
+    ctx.lineWidth = 1;
+    ctx.fillStyle = this.colors.bd;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    let fontsize = this.csize / this.fontdivide;
+    ctx.font = fontsize + 'px sans-serif';
+    ctx.fillText(ch, x, y);
+  }
+
+  /**
+   * 文字が数字かどうかチェック。下の関数を併用
+   */
+  isdigit(ch) {
+    return ((ch >= '0') && ch <= '9');
+  }
+  /**
+   * 縦書きの場合、数字を漢数字に直す
+   */
+  numKanjiConvert(ch) {
+    const kanji = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+    return kanji[parseInt(ch)];
+  }
+  
+
 }

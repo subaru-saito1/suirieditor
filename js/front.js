@@ -24,6 +24,7 @@ function newFile(evt) {
  */
 function fileMenu(evt) {
   const menu = $('#filemenu').val();
+  $('.popup_overlay').removeClass('active');
   if (menu === 'writeimg') {
     $('#popup_writeimg').addClass('active');
   } else if (menu === 'writeurl') {
@@ -61,14 +62,12 @@ function imgWrite() {
  * URL出力
  */
 function urlWrite() {
-  console.log('URL出力')
   $('#popup_writeurl').removeClass('active');
 }
 /**
  * URL読込
  */
 function urlRead() {
-  console.log('URL読込')
   $('#popup_readurl').removeClass('active');
 }
 
@@ -98,7 +97,6 @@ function jsonRead() {
     let jsonobj = JSON.parse(reader.result);
     Suiripuz.board.jsonRead(jsonobj);
     Suiripuz.drawer.drawCanvas(Suiripuz.board);
-    console.log(Suiripuz.board);
   }
   $('#popup_readjson').removeClass('active');
 }
