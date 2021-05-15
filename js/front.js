@@ -25,15 +25,15 @@ function newFile(evt) {
 function fileMenu(evt) {
   const menu = $('#filemenu').val();
   if (menu === 'writeimg') {
-    imgWrite();
+    $('#popup_writeimg').addClass('active');
   } else if (menu === 'writeurl') {
-    urlWrite();
+    $('#popup_writeurl').addClass('active');
   } else if (menu === 'readurl') {
-    urlRead();
+    $('#popup_readurl').addClass('active');
   } else if (menu === 'writejson') {
-    jsonWrite();
+    $('#popup_writejson').addClass('active');
   } else if (menu === 'readjson') {
-    jsonRead();
+    $('#popup_readjson').addClass('active');
   }
 }
 
@@ -42,32 +42,42 @@ function fileMenu(evt) {
  */
 function imgWrite() {
   console.log('画像出力');
+  $('#popup_writeimg').removeClass('active');
 }
 /**
  * URL出力
  */
 function urlWrite() {
   console.log('URL出力')
+  $('#popup_writeurl').removeClass('active');
 }
 /**
  * URL読込
  */
- function urlRead() {
+function urlRead() {
   console.log('URL読込')
+  $('#popup_readurl').removeClass('active');
 }
 /**
  * JSON出力
  */
- function jsonWrite() {
+function jsonWrite() {
   console.log('JSON出力')
+  $('#popup_writejson').removeClass('active');
 }
 /**
  * JSON読込
  */
- function jsonRead() {
+function jsonRead() {
   console.log('JSON読込')
+  $('#popup_readjson').removeClass('active');
 }
-
+/**
+ * キャンセル
+ */
+function closePopup() {
+  $('.popup_overlay').removeClass('active');
+}
 
 
 /**

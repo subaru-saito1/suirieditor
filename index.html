@@ -91,8 +91,63 @@
             解答消去
           </button>
         </div>
-        
       </form>
+
+      <!-- ポップアップ群 -->
+      <div class="popup_overlay" id="popup_writeimg">
+        <div class="popup_content">
+          <p>画像保存</p>
+          <form>
+            <input type="text" id="writeimg_filename" size="20" value="suiri.png"><br>
+            <input type="button" id="writeimg_ok" value="OK">
+            <input type="button" id="writeimg_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
+      <div class="popup_overlay" id="popup_writeurl">
+        <div class="popup_content">
+          <p>URL出力</p>
+          <form>
+            <textarea id="display_url" rows="5" cols="32"></textarea><br>
+            <input type="button" id="writeurl_ok" value="OK">
+          </form>
+        </div>
+      </div>
+
+      <div class="popup_overlay" id="popup_readurl">
+        <div class="popup_content">
+          <p>URL読込</p>
+          <form>
+            <textarea id="input_url" rows="5" cols="32"></textarea><br>
+            <input type="button" id="readurl_ok" value="OK">
+            <input type="button" id="readurl_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
+      <div class="popup_overlay" id="popup_writejson">
+        <div class="popup_content">
+          <p>JSON形式で保存</p>
+          <form>
+            <input type="text" id="writejson_filename" size="20" value="suiri.json"><br>
+            <input type="button" id="writejson_ok" value="OK">
+            <input type="button" id="writejson_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
+      <div class="popup_overlay" id="popup_readjson">
+        <div class="popup_content">
+          <p>JSON形式で読込</p>
+          <form>
+            <input type="file" id="readjson_filename"><br>
+            <input type="button" id="readjson_ok" value="OK">
+            <input type="button" id="readjson_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
     </main>
 
     <footer>
