@@ -71,6 +71,7 @@ function urlRead() {
   console.log('URL読込')
   $('#popup_readurl').removeClass('active');
 }
+
 /**
  * JSON出力
  */
@@ -82,9 +83,19 @@ function jsonWrite() {
  * JSON読込
  */
 function jsonRead() {
-  console.log('JSON読込')
+  let file = $('#readjson_filename').prop('files')[0];
+  let reader = new FileReader();
+  reader.readAsText(file, 'UTF-8');
+  // 読み込み完了時のコールバック処理
+  reader.onload = function() {
+    let jsonobj = JSON.parse(reader.result);
+    Suiripuz.board.jsonRead(jsonobj);
+    Suiripuz.drawer.drawCanvas(Suiripuz.board);
+    console.log(Suiripuz.board);
+  }
   $('#popup_readjson').removeClass('active');
 }
+
 /**
  * キャンセル
  */
