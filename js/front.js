@@ -511,7 +511,6 @@ function inputSubel() {
     Suiripuz.board.elements[elidx].subelements[subelidx].contents1 = contents1;
     Suiripuz.board.elements[elidx].subelements[subelidx].contents2 = contents2;
   }
-
   // ポップアップを閉じる
   $('#popup_subelform').removeClass('active');
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
@@ -522,7 +521,10 @@ function inputSubel() {
  */
 function deleteSubel() {
   // 削除時に処理：サブ要素削除
-
+  let elidx = parseInt($('#subelform_elidx').val());
+  let subelidx = parseInt($('#subelform_subelidx').val());
+  Suiripuz.board.elements[elidx].subelements.splice(subelidx, 1);
   // ポップアップを閉じる
   $('#popup_subelform').removeClass('active');
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
