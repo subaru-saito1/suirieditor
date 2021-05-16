@@ -97,7 +97,7 @@ class Board {
       this.elements.push(el);
     }
     // 最大項目長を計算
-    this.maxItemSize = this.calcItemSize();
+    this.calcItemSize();
     this.initCells();
   }
 
@@ -120,7 +120,7 @@ class Board {
         }
       }
     }
-    return maxitemsize;
+    this.maxItemSize = maxitemsize;
   }
 
   /**
@@ -403,6 +403,7 @@ class Drawer {
         cy -= (subel.contents.length / 2 - 0.5) * this.csize * this.fontratio;
         for (let c of subel.contents) {
           this.drawContentsTate(ctx, cx, cy, c);
+          cy += this.csize * this.fontratio;
         }
       // サブカテゴリ左テキスト描画（上下寄せ）
       } else {
@@ -413,11 +414,13 @@ class Drawer {
         cy += this.csize * this.fontratio;
         for (let c of subel.contents1) {
           this.drawContentsTate(ctx, cx, cy, c);
+          cy += this.csize * this.fontratio;
         }
         // 後半
         cy = sbofsy + height - (subel.contents2.length + 1 - 0.5) * this.csize * this.fontratio;
         for (let c of subel.contents2) {
           this.drawContentsTate(ctx, cx, cy, c);
+          cy += this.csize * this.fontratio;
         }
         cy = sbofsy + height - 0.5 * this.csize * this.fontratio;
         this.drawChar(ctx, cx, cy, '↓');
@@ -433,7 +436,6 @@ class Drawer {
       c = this.numKanjiConvert(c);
     }
     this.drawChar(ctx, cx, cy, c);
-    cy += this.csize * this.fontratio;
   }
   
   /**
@@ -532,5 +534,33 @@ class Drawer {
     return kanji[parseInt(ch)];
   }
   
+  /**
+   * カーソル描画（テキスト入力インタフェースから呼び出し）
+   * 実装がかなり面倒だと気付き今のところ放置。
+   * objについて
+   *   type: item => elidx, idx
+   *   type: elem => elidx
+   *   type: elem => elidx, subelidx
+   */
+  drawCursor(obj) {
+    // drawCanvasとは別の場所から呼ばれるのでコンテキスト取得
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#ff0000';
+    if (obj.type === 'item') {
+      this.drawCursorItem(ctx, obj);
+    } else if (obj.type === 'elem') {
+      this.drawCursorElem(ctx, obj);
+    } else if (obj.type === 'subel') {
+      this.drawCursorSubel(ctx, obj);
+    }
+  }
+  drawCursorItem(ctx, obj) {
+  }
+  drawCursorElem(ctx, obj) {
+  }
+  drawwCursorSubel(ctx, obj) {
+  }
 
 }

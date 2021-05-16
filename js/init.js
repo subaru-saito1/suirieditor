@@ -66,11 +66,12 @@ function setEventHundler() {
   // キャンセルボタン（ポップアップウィンドウを閉じる）
   $('#writeimg_ng, #readurl_ng, #writejson_ng, #readjson_ng').click(closePopup);
   // テキスト入力用インタフェース
-  /*
-  $('#popup_itemform').click(inputItem);
-  $('#popup_elementform').click(inputElement);
-  $('#popup_subelform').click(inputSubel);
-  */
+  $('#itemform_ok').click(inputItem);
+  $('#elemform_ok').click(inputElement);
+  $('#subelform_ok').click(inputSubel);
+  $('#subelform_del').click(deleteSubel);
+  // キャンセルボタン
+  $('#itemform_ng, #elementform_ng, #subelform_ng').click(closePopup);
 
   // ページ離脱時の警告
   window.addEventListener('beforeunload', function(evt) {

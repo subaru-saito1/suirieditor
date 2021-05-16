@@ -180,6 +180,9 @@ function blurBoard(evt) {
   console.log('盤面フォーカス外れ');
 }
 
+
+// ==================================================================================
+
 /**
  * 盤面クリック
  */
@@ -194,13 +197,13 @@ function clickBoard(evt) {
   if (objinfo.type === 'cell') {
     clickCell(objinfo, evt.button);
   } else if (objinfo.type === 'item') {
-    console.log(objinfo);
+    clickItem(objinfo);
   } else if (objinfo.type === 'subel') {
-    console.log(objinfo);
+    clickSubel(objinfo);
   } else if (objinfo.type === 'elem') {
-    console.log(objinfo);
+    clickElem(objinfo);
   } else {
-    console.log(objinfo, '(空白)');
+    // 空白クリック時：何もしない
   }
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
@@ -276,17 +279,17 @@ function identifyClickPosElYoko(mx, my) {
     let elidx = elems - bx - 1;
     if (y === 0) {
       // 要素
-      obj = {'type': 'elem', 'elidx': elidx};
+      obj = {'type': 'elem', 'elidx': elidx, 'mode': 'yoko'};
     } else if (y > 1) {
       // 項目
-      obj = {'type': 'elem', 'elidx': elidx, 'idx': cx};
+      obj = {'type': 'item', 'elidx': elidx, 'idx': cx, 'mode': 'tate'};
     } else if (y === 1){
       // サブ要素
       let sbidx = identifySubelems(elidx, cx);
       if (sbidx < 0) {
-        obj = {'type': 'elem', 'elidx': elidx, 'idx': cx};
+        obj = {'type': 'item', 'elidx': elidx, 'idx': cx, 'mode': 'tate'};
       } else {
-        obj = {'type': 'subel', 'elidx': elidx, 'subelidx': sbidx};
+        obj = {'type': 'subel', 'elidx': elidx, 'subelidx': sbidx, 'mode': 'yoko'};
       }
     }
   }
@@ -314,17 +317,17 @@ function identifyClickPosElTate(mx, my) {
     let elidx = by;
     if (x === 0) {
       // 要素
-      obj = {'type': 'elem', 'elidx': elidx};
+      obj = {'type': 'elem', 'elidx': elidx, 'mode': 'tate'};
     } else if (x > 1) {
       // 項目
-      obj = {'type': 'elem', 'elidx': elidx, 'idx': cy};
+      obj = {'type': 'item', 'elidx': elidx, 'idx': cy, 'mode': 'yoko'};
     } else if (x === 1){
       // サブ要素
       let sbidx = identifySubelems(elidx, cy);
       if (sbidx < 0) {
-        obj = {'type': 'elem', 'elidx': elidx, 'idx': cy};
+        obj = {'type': 'item', 'elidx': elidx, 'idx': cy, 'mode': 'yoko'};
       } else {
-        obj = {'type': 'subel', 'elidx': elidx, 'subelidx': sbidx};
+        obj = {'type': 'subel', 'elidx': elidx, 'subelidx': sbidx, 'mode': 'tate'};
       }
     }
   }
@@ -337,13 +340,14 @@ function identifyClickPosElTate(mx, my) {
  */
 function identifySubelems(elidx, n) {
   let i = 0; 
+  let ret = -1;
   for (let subel of Suiripuz.board.elements[elidx].subelements) {
     if (n >= subel.start && n < subel.start + subel.size) {
-      return i;
+      ret = i;
     }
     i++;
   }
-  return -1;
+  return ret;
 }
 
 
@@ -370,4 +374,155 @@ function clickCell(obj, button) {
       Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = '';
     }
   }
+}
+
+
+// ===================================================================================
+// キーボード入力インタフェース
+
+/**
+ * 項目名ポップアップ表示
+ */
+function clickItem(obj) {
+  // 一旦すべてのポップアップを閉じる
+  $('.popup_overlay').removeClass('active');
+  // 必要な要素類を取得してポップアップ表示
+  let contents = Suiripuz.board.elements[obj.elidx].items[obj.idx];
+  $('#itemform_elidx').val(obj.elidx);
+  $('#itemform_itemidx').val(obj.idx);
+  $('#itemform').val(contents);
+  $('#itemform_label').text('項目名入力 (要素' + (obj.elidx+1) + ', 項目' + (obj.idx+1) + ')');
+  $('#popup_itemform').addClass('active');
+}
+
+/**
+ * 項目名入力処理
+ */
+function inputItem() {
+  // OK時の処理：項目名追加
+  let elidx = parseInt($('#itemform_elidx').val());
+  let itemidx = parseInt($('#itemform_itemidx').val());
+  let contents = $('#itemform').val();
+  Suiripuz.board.elements[elidx].items[itemidx] = contents;
+  Suiripuz.board.calcItemSize();  // 最大長さの調整
+  // ポップアップを閉じて再描画
+  $('#popup_itemform').removeClass('active');
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
+}
+
+/**
+ * 要素名ポップアップ表示
+ */
+function clickElem(obj) {
+  // 一旦すべてのポップアップを閉じる
+  $('.popup_overlay').removeClass('active');
+  // 必要な要素類を取得してポップアップ表示
+  let contents = Suiripuz.board.elements[obj.elidx].contents;
+  let numitems = Suiripuz.board.numItems;
+  $('#elemform_elidx').val(obj.elidx);
+  $('#elemform').val(contents);
+  $('#elemform_label').text('要素名入力 (要素' + (obj.elidx+1) + ')');
+  // サブ要素生成時のサイズ範囲を動的設定
+  $('#elemform_substart').attr('max', numitems);
+  $('#elemform_subsize').attr('max', numitems);
+  $('#elemform_subsize').val(numitems);
+  $('#popup_elemform').addClass('active');
+}
+
+/**
+ * 要素名入力
+ */
+function inputElement() {
+  // OK時の処理：要素名追加
+  let elidx = parseInt($('#elemform_elidx').val());
+  let contents = $('#elemform').val();
+  Suiripuz.board.elements[elidx].contents = contents;
+  // サブ要素の追加処理
+  if ($('#elemform_checkbox').prop('checked')) {
+    let substart = parseInt($('#elemform_substart').val()) - 1;
+    let subsize = parseInt($('#elemform_subsize').val());
+    // サブ要素作成（バリデーション付き）
+    if (createSubelValidation(elidx, substart, subsize)) {
+      subel = {};
+      subel.type = 0;
+      subel.contents = '';
+      subel.start = substart;
+      subel.size = subsize;
+      Suiripuz.board.elements[elidx].subelements.push(subel);
+      Suiripuz.board.calcItemSize();  // 最大長さの調整
+    }
+  }
+  // ポップアップを閉じる
+  $('#popup_elemform').removeClass('active');
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
+}
+
+/**
+ * サブ要素を作成可能かどうかバリデーション
+ */
+function createSubelValidation(elidx, start, size) {
+  // todo
+  return true;
+}
+
+/**
+ * サブ要素名ポップアップ表示
+ */
+function clickSubel(obj) {
+  // 一旦すべてのポップアップを閉じる
+  $('.popup_overlay').removeClass('active');
+  // 必要な要素類を取得してポップアップ表示
+  let subtype = Suiripuz.board.elements[obj.elidx].subelements[obj.subelidx].type;
+  if (subtype === 0) {
+    let contents = Suiripuz.board.elements[obj.elidx].subelements[obj.subelidx].contents;
+    $('#subelform_radio0').prop('checked', true);
+    $('#subelform').val(contents);
+    $('#subelform1').val('');
+    $('#subelform2').val('');
+  } else {
+    let contents1 = Suiripuz.board.elements[obj.elidx].subelements[obj.subelidx].contents1;
+    let contents2 = Suiripuz.board.elements[obj.elidx].subelements[obj.subelidx].contents2;
+    $('#subelform_radio1').prop('checked', true);
+    $('#subelform').val('');
+    $('#subelform1').val(contents1);
+    $('#subelform2').val(contents2);
+  }
+  $('#subelform_elidx').val(obj.elidx);
+  $('#subelform_subelidx').val(obj.subelidx);
+  $('#subelform_label').text('サブ要素名入力 (要素' + (obj.elidx+1) + ', 番号' + (obj.subelidx+1) + ')');
+  $('#popup_subelform').addClass('active');
+}
+
+/**
+ * サブ要素名入力
+ */
+function inputSubel() {
+  // OK時の処理：サブ要素名変更
+  let elidx = parseInt($('#subelform_elidx').val());
+  let subelidx = parseInt($('#subelform_subelidx').val());
+  if ($('#subelform_radio0').prop('checked')) {
+    let contents = $('#subelform').val();
+    Suiripuz.board.elements[elidx].subelements[subelidx].type = 0;
+    Suiripuz.board.elements[elidx].subelements[subelidx].contents = contents;
+  } else {
+    let contents1 = $('#subelform1').val();
+    let contents2 = $('#subelform2').val();
+    Suiripuz.board.elements[elidx].subelements[subelidx].type = 1;
+    Suiripuz.board.elements[elidx].subelements[subelidx].contents1 = contents1;
+    Suiripuz.board.elements[elidx].subelements[subelidx].contents2 = contents2;
+  }
+
+  // ポップアップを閉じる
+  $('#popup_subelform').removeClass('active');
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
+}
+
+/**
+ * サブ要素削除
+ */
+function deleteSubel() {
+  // 削除時に処理：サブ要素削除
+
+  // ポップアップを閉じる
+  $('#popup_subelform').removeClass('active');
 }
