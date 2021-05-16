@@ -127,7 +127,11 @@ canvas {
 .popup_content textarea {
   resize: none;
 }
+.popup_content p {
+  margin-bottom: 5px;
+}
 
+/* ファイルメニュー */
 #popup_writeimg, #popup_writejson, #popup_readjson {
   width: 280px;
   height: 140px;
@@ -139,4 +143,12 @@ canvas {
   height: 180px;
   left: calc(50% - 140px);
   top: 30%;
+}
+
+/* テキスト入力インタフェース */
+#popup_itemform {
+  width: 280px;
+  height: 140px;
+  left: calc(50% - 140px);
+  top: 40%;
 }

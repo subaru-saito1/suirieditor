@@ -148,6 +148,57 @@
         </div>
       </div>
 
+      <div class="popup_overlay" id="popup_itemform">
+        <div class="popup_content">
+          <p id="itemform_label">項目名入力</p>
+          <form>
+            <input type="text" id="itemform" size="10"><br>
+            <input type="hidden" id="itemform_elidx">
+            <input type="hidden" id="itemform_itemidx">
+            <input type="button" id="itemform_ok" value="OK">
+            <input type="button" id="itemform_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
+      <div class="popup_overlay" id="popup_elemform">
+        <div class="popup_content">
+          <p id="elemform_label">要素名入力</p>
+          <form>
+            <input type="text" id="elemform" size="10"><br><br>
+            <input type="checkbox" id="elemform_checkbox">
+            <label for="elemform_checkbox">サブ要素を作成</label><br>
+            <label for="elemform_substart">開始</label>
+            <input type="number" id="elemform_substart" min="1" max="5" step="1" value="1">
+            <label for="elemform_subsize">サイズ</label>
+            <input type="number" id="elemform_subsize" min="1" max="5" step="1" value="5">
+            <input type="hidden" id="elemform_elidx"><br>
+            <input type="button" id="elemform_ok" value="OK">
+            <input type="button" id="itemform_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
+      <div class="popup_overlay" id="popup_subelform">
+        <div class="popup_content">
+          <p id="subelform_label">サブ要素名入力</p>
+          <form>
+            <input type="radio" name="subelform_radio" id="subelform_radio0" checked>
+            <input type="text" id="subelform" size="10"><br>
+            <input type="radio" name="subelform_radio" id="subelform_radio1">
+            <span>←</span>
+              <input type="text" id="subelform1" size="1">
+              <input type="text" id="subelform2" size="1">
+            <span>→</span><br>
+            <input type="hidden" id="subelform_elidx">
+            <input type="hidden" id="subelform_subelidx">
+            <input type="button" id="subelform_del" value="削除">
+            <input type="button" id="subelform_ok" value="OK">
+            <input type="button" id="subelform_ng" value="キャンセル">
+          </form>
+        </div>
+      </div>
+
     </main>
 
     <footer>
