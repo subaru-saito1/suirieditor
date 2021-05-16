@@ -208,8 +208,9 @@ class Drawer {
             // オフセット値計算
             let cofsx = bdofsx + j * this.csize;
             let cofsy = bdofsy + i * this.csize;
+            let cval = board.cells[bi][bj][i][j];
             this.drawRect(ctx, cofsx, cofsy, this.csize, this.csize);
-            this.drawCellText(board, ctx, cofsx, cofsy);
+            this.drawCellText(ctx, cofsx, cofsy, cval);
           }
         }
         this.drawBorder(board, ctx, bdofsx, bdofsy, bdsize, bdsize)
@@ -478,10 +479,30 @@ class Drawer {
   /**
    * セル描画関数：テキスト部分
    */
-  drawCellText(board, ctx, ofsx, ofsy) {
-    // todo: セルテキスト描画 
-    ctx.lineWidth = 1;
-    ctx.fillStyle = this.colors.in;
+  drawCellText(ctx, ofsx, ofsy, c) {
+    ctx.strokeStyle = this.colors.in;
+    if (c === 'o') {
+      ctx.lineWidth = 2;
+      let cx = ofsx + this.csize / 2;
+      let cy = ofsy + this.csize / 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, this.csize/2.5, 0, 2*Math.PI);
+      ctx.closePath();
+      ctx.stroke();
+    } else if (c === 'x') {
+      let p = 0.1 * this.csize;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(ofsx + p, ofsy + p);
+      ctx.lineTo(ofsx + this.csize - p, ofsy + this.csize - p);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(ofsx + this.csize - p, ofsy + p);
+      ctx.lineTo(ofsx + p, ofsy + this.csize - p);
+      ctx.closePath();
+      ctx.stroke();
+    }
   }
 
   /**

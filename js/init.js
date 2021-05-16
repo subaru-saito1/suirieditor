@@ -13,6 +13,9 @@
 let Suiripuz = {}
 
 Suiripuz.board = new Board();
+Suiripuz.config = {
+  qamode: 'question',
+}
 Suiripuz.drawer = new Drawer();
 /*
 Suiripuz.astack = new ActionStack();   // アクションスタック作成
