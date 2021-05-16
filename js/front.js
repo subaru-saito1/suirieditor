@@ -132,14 +132,16 @@ function setSize(evt) {
  * 問題入力モード変更
  */
 function setQmode(evt) {
-  console.log('問題モードに変更');
+  Suiripuz.config.qamode = 'question';
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
 /**
  * 解答入力モード変更
  */
 function setAmode(evt) {
-  console.log('解答モードに変更');
+  Suiripuz.config.qamode = 'answer';
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
 
@@ -190,7 +192,7 @@ function clickBoard(evt) {
   // type:elem => elidx
   let objinfo = identifyClickPos(evt.offsetX, evt.offsetY)
   if (objinfo.type === 'cell') {
-    console.log(objinfo);
+    clickCell(objinfo, evt.button);
   } else if (objinfo.type === 'item') {
     console.log(objinfo);
   } else if (objinfo.type === 'subel') {
@@ -248,7 +250,7 @@ function identifyClickPosCell(mx, my) {
   if (bx + by >= elems - 1) {
     obj = {'type': 'none'};
   } else {
-    obj = {'type': 'cell', 'bi': bx, 'bj': by, 'i': cx, 'j': cy};
+    obj = {'type': 'cell', 'bi': by, 'bj': bx, 'i': cy, 'j': cx};
   }
   return obj;
 }
@@ -342,4 +344,30 @@ function identifySubelems(elidx, n) {
     i++;
   }
   return -1;
+}
+
+
+/**
+ * セルクリック時の処理
+ * button: 0で左、2で右
+ */
+function clickCell(obj, button) {
+  let cellval = Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j];
+  if (button === 0) {
+    if (cellval === '') {
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'o';
+    } else if (cellval === 'o') {
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'x';
+    } else {
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = '';
+    }
+  } else if (button === 2) {
+    if (cellval === '') {
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'x';
+    } else if (cellval === 'x') {
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'o';
+    } else {
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = '';
+    }
+  }
 }
