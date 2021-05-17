@@ -36,6 +36,10 @@ h1::first-letter {
   color: #1cbb31;
 }
 
+h1 span {
+  font-size: 1.5em;
+}
+
 /* ヘッダ・フッタ中身設定 */
 header p, footer p {
   text-align: right;

@@ -40,6 +40,9 @@ h1 {
 h1::first-letter {
   color: $hlcolor;
 }
+h1 span {
+  font-size: 1.5em;
+}
 
 /* ヘッダ・フッタ中身設定 */
 header p, footer p {

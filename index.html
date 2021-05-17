@@ -47,8 +47,10 @@
           <select id="filemenu" name="filemenu">
             <option value="default">--</option>
             <option value="writeimg">画像出力</option>
+            <!--
             <option value="writeurl">URL形式出力</option>
             <option value="readurl">URL形式読込</option>
+            -->
             <option value="writejson">JSON形式出力</option>
             <option value="readjson">JSON形式読込</option>
           </select>
@@ -71,6 +73,7 @@
 
       <!-- 下編集フォーム -->
       <form id="bottom_form">
+        <!--
         <div id="ansmode_switch">
           <input type="radio" name="modeselect" id="opform_qmode" value="question" checked
                  title="問題入力モード(F2)">
@@ -79,14 +82,17 @@
           <input type="radio" name="modeselect" id="opform_amode" value="answer"
                  title="解答入力モード(F2)">
           <label for="opform_amode">解答入力</label>
-        </div> 
+        </div>
+        --> 
         <div id="bottom_buttons">
+          <!--
           <button type="button" name="undo" id="opform_undo" title="操作を一つ戻します">
             <i class="fas fa-undo"></i>
           </button>
           <button type="button" name="redo" id="opform_redo" title="操作を一つ進めます">
             <i class="fas fa-redo"></i>
           </button>
+          -->
           <button type="button" name="ansclear" id="opform_clear" title="解答を消去します">
             解答消去
           </button>
