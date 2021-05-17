@@ -163,21 +163,8 @@ function actionRedo(evt) {
  * 解答消去
  */
 function answerClear(evt) {
-  console.log('解答消去');
-}
-
-/**
- * 盤面キーボード押下
- */
- function keyDownBoard(evt) {
-  console.log('キーボード押下');
-}
-
-/**
- * 盤面ブラー
- */
-function blurBoard(evt) {
-  console.log('盤面フォーカス外れ');
+  Suiripuz.board.ansClear();
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
 
