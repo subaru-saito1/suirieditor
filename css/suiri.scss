@@ -152,3 +152,18 @@ canvas {
   left: calc(50% - 140px);
   top: 40%;
 }
+#popup_elemform {
+  width: 280px;
+  height: 200px;
+  left: calc(50% - 140px);
+  top: 40%;
+}
+#popup_elemform input[type="number"] {
+  width: 30px;
+}
+#popup_subelform {
+  width: 280px;
+  height: 160px;
+  left: calc(50% - 140px);
+  top: 40%;
+}

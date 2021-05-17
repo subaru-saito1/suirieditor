@@ -393,8 +393,8 @@ class Drawer {
       // 矩形領域描画
       let sbofsx = ofsx + this.csize;
       let sbofsy = ofsy + subel.start * this.csize;
-      let width = this.csize;
-      let height = subel.size * this.csize;
+      let width = this.csize - 1;
+      let height = subel.size * this.csize - 1;
       this.drawRect(ctx, sbofsx, sbofsy, width, height);
       // サブカテゴリ左テキスト描画（中央寄せ）
       if (subel.type === 0) {
@@ -446,8 +446,8 @@ class Drawer {
       // 矩形領域描画
       let sbofsx = ofsx + subel.start * this.csize;
       let sbofsy = ofsy + this.csize;
-      let width = subel.size * this.csize;
-      let height = this.csize;
+      let width = subel.size * this.csize - 1;
+      let height = this.csize - 1;
       this.drawRect(ctx, sbofsx, sbofsy, width, height);
       // todo: サブカテゴリ上テキスト描画
       if (subel.type === 0) {

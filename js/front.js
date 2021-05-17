@@ -392,7 +392,9 @@ function clickItem(obj) {
   $('#itemform_itemidx').val(obj.idx);
   $('#itemform').val(contents);
   $('#itemform_label').text('項目名入力 (要素' + (obj.elidx+1) + ', 項目' + (obj.idx+1) + ')');
+  // ポップアップ表示とフォーカス
   $('#popup_itemform').addClass('active');
+  $('#itemform').focus();
 }
 
 /**
@@ -423,10 +425,16 @@ function clickElem(obj) {
   $('#elemform').val(contents);
   $('#elemform_label').text('要素名入力 (要素' + (obj.elidx+1) + ')');
   // サブ要素生成時のサイズ範囲を動的設定
+  $('#elemform_checkbox').prop('checked', false);
+  $('#elemform_substart').attr('min', 1);
   $('#elemform_substart').attr('max', numitems);
+  $('#elemform_substart').val(1);
+  $('#elemform_subsize').attr('min', 1);
   $('#elemform_subsize').attr('max', numitems);
   $('#elemform_subsize').val(numitems);
+  // ポップアップ表示とフォーカス
   $('#popup_elemform').addClass('active');
+  $('#elemform').focus();
 }
 
 /**
@@ -450,6 +458,8 @@ function inputElement() {
       subel.size = subsize;
       Suiripuz.board.elements[elidx].subelements.push(subel);
       Suiripuz.board.calcItemSize();  // 最大長さの調整
+    } else {
+      alert('サブ要素の範囲が重複しています。')
     }
   }
   // ポップアップを閉じる
@@ -459,9 +469,28 @@ function inputElement() {
 
 /**
  * サブ要素を作成可能かどうかバリデーション
+ * 指定したstart, sizeが既存のサブ要素と重ならないか判定
  */
 function createSubelValidation(elidx, start, size) {
-  // todo
+  // 範囲バリデーション
+  let items = Suiripuz.board.numItems;
+  if (start < 0 || start >= items) {
+    return false;
+  } else if (size < 1 || start + size > items) {
+    return false;
+  }
+  // 重複チェック
+  for (let subel of Suiripuz.board.elements[elidx].subelements) {
+    if (subel.start <= start) {
+      if (subel.start + subel.size > start) {
+        return false;
+      }
+    } else {
+      if (start + size > subel.start) {
+        return false;
+      }
+    }
+  }
   return true;
 }
 
@@ -490,7 +519,13 @@ function clickSubel(obj) {
   $('#subelform_elidx').val(obj.elidx);
   $('#subelform_subelidx').val(obj.subelidx);
   $('#subelform_label').text('サブ要素名入力 (要素' + (obj.elidx+1) + ', 番号' + (obj.subelidx+1) + ')');
+  // ポップアップ表示とフォーカス
   $('#popup_subelform').addClass('active');
+  if (subtype === 0) {
+    $('#subelform').focus();
+  } else {
+    $('#subelform1').focus();
+  }
 }
 
 /**
