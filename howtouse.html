@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>推理パズルエディタ 操作説明</title>
+  <meta charset="utf-8">
+  <meta name="author" content="Subaru Saito">
+  <meta name="description" content="How to use Suiri Puzzle">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- fonts-->
+  <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+  <!-- static assets -->
+  <link rel="stylesheet" href="css/suiri.css">
+  <link rel="stylesheet" href="css/howtouse.css">
+</head>
+
+
+<body>
+  <header>
+    <div id="header_in">
+      <h1>推理パズルエディタ <span>ver α</span></h1>
+      <p>マトリックス型推理パズル作成支援ツール</p>
+    </div>
+  </header>
+  <main>
+    <div id="main_wrapper">
+      <h2>操作方法</h2>
+
+      <section>
+      <h3>全般</h3>
+      <hr>
+      <p>
+        PCによるマウス・キーボード操作が主になります。<br>
+        マスをクリックすることで〇、×の記号を、<br>
+        左上の欄をクリックすることで中身の文字入力を行うためのウィンドウが出現します。<br>
+        <br>
+        とりあえず最低限問題を作って画像・テキスト保存できるところまで備えたアルファ版です。<br>
+        アンドゥ・リドゥなどの編集機能やURL入出力機能、一部の特殊な問題への対応はしておりません。<br>
+        GitHubのレポジトリは<a href="https://github.com/subaru-saito1/suirieditor">こちら</a>
+      </p>
+      </section>
+
+      <section>
+      <h3>操作説明</h3>
+      <hr>
+      <dl>
+        <dt>マスの入力</dt>
+        <dd>クリックで行います。左クリックで空白→〇→×、右クリックで空白→×→〇の順番で入力されます。</dd>
+        <dt>項目の入力</dt>
+        <dd>入力したい左/上の項目欄をクリックすると、文字を入力するウィンドウが開きます。文字を入力したら「OK」を押すと盤面に入力されます。</dd>
+        <dt>要素の入力</dt>
+        <dd>項目と同様、入力したい項目欄をクリックすると専用のウィンドウが開きます。項目名を設定する他、開始マス番号とサイズを指定してサブ要素を作成することもできます。</dd>
+        <dt>サブ要素の入力</dt>
+        <dd>まず「要素の入力」の手順に従い空のサブ要素を作成します。その後、同様に該当欄をクリックすることでサブ要素設定用のウィンドウが開きます。</dd>
+      </dl>
+      </section>
+
+      <section>
+      <h3>メニュー説明</h3>
+      <hr>
+      <ul>
+        <li class="menu">ファイルメニュー</li>
+        <dl>
+          <dt>新規作成</dt><dd>現在の盤面をリセットして新しい盤面を作成します。</dd>
+          <dt>画像出力</dt><dd>盤面を画像形式で保存します。</dd>
+          <dt>JSON形式読込</dt><dd>以下の機能で出力したテキストファイルを読み込みます。</dd>
+          <dt>JSON形式出力</dt><dd>独自のテキスト形式で盤面内容を出力します。</dd>
+        </dl>
+      </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div id="footer_in">
+      <p><a href="http://subaru-saito.squares.net/index.html">トップに戻る</a></p>
+      <p><small> Copyright 2021~. Subaru Saito, All Rights Reserved. </small></p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
