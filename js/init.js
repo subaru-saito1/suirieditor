@@ -54,8 +54,10 @@ function setEventHundler() {
   // キャンバス
   $('canvas').click(clickBoard);
   $('canvas').on('contextmenu', clickBoard);  // 右クリック上書き
+  /*
   $('canvas').keydown(keyDownBoard);
   $('canvas').blur(blurBoard);
+  */
   
   // 各種ポップアップ
   $('#writeimg_ok').click(imgWrite);

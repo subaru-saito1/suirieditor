@@ -133,6 +133,21 @@ class Board {
     obj.elements = this.elements;
     return JSON.stringify(obj, null, 2);
   }
+
+  /**
+   * 現在の解答盤面を消去する
+   */
+  ansClear() {
+    for (let bi = 0; bi < this.numElems - 1; bi++) {
+      for (let bj = 0; bj < this.numElems - bi - 1; bj++) {
+        for (let i = 0; i < this.numItems; i++) {
+          for (let j = 0; j < this.numItems; j++) {
+            this.cells[bi][bj][i][j] = '';
+          }
+        }
+      }
+    }
+  }
 }
 
 
