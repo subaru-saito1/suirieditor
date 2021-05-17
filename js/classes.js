@@ -362,11 +362,7 @@ class Drawer {
       let cx = ofsx + this.csize / 2;
       let cy = ofsy + (board.maxItemSize - (contents.length - 0.5) * this.fontratio) * this.csize;
       for (let c of contents) {
-        // 漢数字に変換
-        if (this.isdigit(c)) {
-          c = this.numKanjiConvert(c);
-        }
-        this.drawChar(ctx, cx, cy, c);
+        this.drawContentsTate(ctx, cx, cy, c);
         cy += this.csize * this.fontratio;
       }
     }
@@ -390,11 +386,7 @@ class Drawer {
       let cy = ofsy + (board.numItems * this.csize) / 2;
       cy -= (contents.length / 2 - 0.5) * this.csize * this.fontratio;
       for (let c of contents) {
-        // 漢数字に変換
-        if (this.isdigit(c)) {
-          c = this.numKanjiConvert(c);
-        }
-        this.drawChar(ctx, cx, cy, c);
+        this.drawContentsTate(ctx, cx, cy, c);
         cy += this.csize * this.fontratio;
       }
     }
@@ -449,6 +441,8 @@ class Drawer {
     // 漢数字に変換
     if (this.isdigit(c)) {
       c = this.numKanjiConvert(c);
+    } else if (c === 'ー' || c === '-') {
+      c = '|'
     }
     this.drawChar(ctx, cx, cy, c);
   }
