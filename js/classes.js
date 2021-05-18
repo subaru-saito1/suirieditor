@@ -148,6 +148,80 @@ class Board {
       }
     }
   }
+
+  /**
+   * URL書き出し
+   */
+  urlWrite() {
+    let url = 'https://subaru-saito1.github.io/suirieditor?';
+    url += (this.numElems);        // 要素数
+    url += ('/' + this.numItems);  // 項目数
+    for (let el of this.elements) {
+      // 要素名エンコード
+      url += ('/' + encodeURIComponent(el.contents));
+      // サブ要素エンコード処理
+      url += ('/' + el.subelements.length);
+      for (let subel of el.subelements) {
+        url += ('/' + subel.type);
+        url += ('/' + subel.start);
+        url += ('/' + subel.size);
+        if (subel.type === 0) {
+          url += ('/' + encodeURIComponent(subel.contents));
+        } else {
+          url += ('/' + encodeURIComponent(subel.contents1));
+          url += ('/' + encodeURIComponent(subel.contents2));
+        }
+      } 
+      // 項目エンコード
+      for (let item of el.items) {
+        url += ('/' + encodeURIComponent(item));
+      }
+    }
+    return url;
+  }
+
+  /**
+   * URL読込（クエリ部分を読み込み）
+   */
+  urlRead(query) {
+    let tokens = query.split('/');
+    let cnt = 0;
+    this.numElems = parseInt(tokens[cnt++]);
+    this.numItems = parseInt(tokens[cnt++]);
+    this.maxCellSize = this.numItems * (this.numElems - 1);
+    // 各要素、項目をコピー
+    this.elements = []
+    for (let e = 0; e < this.numElems; e++) {
+      let el = {}
+      // 要素
+      el.contents = decodeURIComponent(tokens[cnt++]);
+      // サブ要素
+      el.subelements = [];
+      let subelems = parseInt(tokens[cnt++]);
+      for (let sb = 0; sb < subelems; sb++) {
+        let subel = {}
+        subel.type = parseInt(tokens[cnt++]);
+        subel.start = parseInt(tokens[cnt++]);
+        subel.size = parseInt(tokens[cnt++]);
+        if (subel.type === 0) {
+          subel.contents = decodeURIComponent(tokens[cnt++]);
+        } else {
+          subel.contents1 = decodeURIComponent(tokens[cnt++]);
+          subel.contents2 = decodeURIComponent(tokens[cnt++]);
+        }
+        el.subelements.push(subel);
+      }
+      // 項目
+      el.items = []
+      for (let it = 0; it < this.numItems; it++) {
+        el.items.push(decodeURIComponent(tokens[cnt++]));
+      }
+      this.elements.push(el);
+    }
+    // 最大項目長を計算
+    this.calcItemSize();
+    this.initCells();
+  }
 }
 
 
