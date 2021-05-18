@@ -154,27 +154,28 @@ class Board {
    */
   urlWrite() {
     let url = 'https://subaru-saito1.github.io/suirieditor?';
+    let splitchar = '_'
     url += (this.numElems);        // 要素数
-    url += ('/' + this.numItems);  // 項目数
+    url += ('_' + this.numItems);  // 項目数
     for (let el of this.elements) {
       // 要素名エンコード
-      url += ('/' + encodeURIComponent(el.contents));
+      url += ('_' + encodeURIComponent(el.contents));
       // サブ要素エンコード処理
-      url += ('/' + el.subelements.length);
+      url += ('_' + el.subelements.length);
       for (let subel of el.subelements) {
-        url += ('/' + subel.type);
-        url += ('/' + subel.start);
-        url += ('/' + subel.size);
+        url += ('_' + subel.type);
+        url += ('_' + subel.start);
+        url += ('_' + subel.size);
         if (subel.type === 0) {
-          url += ('/' + encodeURIComponent(subel.contents));
+          url += ('_' + encodeURIComponent(subel.contents));
         } else {
-          url += ('/' + encodeURIComponent(subel.contents1));
-          url += ('/' + encodeURIComponent(subel.contents2));
+          url += ('_' + encodeURIComponent(subel.contents1));
+          url += ('_' + encodeURIComponent(subel.contents2));
         }
       } 
       // 項目エンコード
       for (let item of el.items) {
-        url += ('/' + encodeURIComponent(item));
+        url += ('_' + encodeURIComponent(item));
       }
     }
     return url;
@@ -184,7 +185,7 @@ class Board {
    * URL読込（クエリ部分を読み込み）
    */
   urlRead(query) {
-    let tokens = query.split('/');
+    let tokens = query.split('_');
     let cnt = 0;
     this.numElems = parseInt(tokens[cnt++]);
     this.numItems = parseInt(tokens[cnt++]);
