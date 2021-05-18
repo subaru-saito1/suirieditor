@@ -400,7 +400,7 @@ function inputItem() {
   // OK時の処理：項目名追加
   let elidx = parseInt($('#itemform_elidx').val());
   let itemidx = parseInt($('#itemform_itemidx').val());
-  let contents = $('#itemform').val();
+  let contents = removeUnderscore($('#itemform').val());
   Suiripuz.board.elements[elidx].items[itemidx] = contents;
   Suiripuz.board.calcItemSize();  // 最大長さの調整
   // ポップアップを閉じて再描画
@@ -439,7 +439,7 @@ function clickElem(obj) {
 function inputElement() {
   // OK時の処理：要素名追加
   let elidx = parseInt($('#elemform_elidx').val());
-  let contents = $('#elemform').val();
+  let contents = removeUnderscore($('#elemform').val());
   Suiripuz.board.elements[elidx].contents = contents;
   // サブ要素の追加処理
   if ($('#elemform_checkbox').prop('checked')) {
@@ -532,12 +532,12 @@ function inputSubel() {
   let elidx = parseInt($('#subelform_elidx').val());
   let subelidx = parseInt($('#subelform_subelidx').val());
   if ($('#subelform_radio0').prop('checked')) {
-    let contents = $('#subelform').val();
+    let contents = removeUnderscore($('#subelform').val());
     Suiripuz.board.elements[elidx].subelements[subelidx].type = 0;
     Suiripuz.board.elements[elidx].subelements[subelidx].contents = contents;
   } else {
-    let contents1 = $('#subelform1').val();
-    let contents2 = $('#subelform2').val();
+    let contents1 = removeUnderscore($('#subelform1').val());
+    let contents2 = removeUnderscore($('#subelform2').val());
     Suiripuz.board.elements[elidx].subelements[subelidx].type = 1;
     Suiripuz.board.elements[elidx].subelements[subelidx].contents1 = contents1;
     Suiripuz.board.elements[elidx].subelements[subelidx].contents2 = contents2;
@@ -558,4 +558,12 @@ function deleteSubel() {
   // ポップアップを閉じる
   $('#popup_subelform').removeClass('active');
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
+}
+
+/**
+ * アンダースコアをハイフンに置換する
+ * アンダースコアはURLの区切り文字に使っているため
+ */
+function removeUnderscore(str) {
+  return str.replace(/_/g, '-');
 }
