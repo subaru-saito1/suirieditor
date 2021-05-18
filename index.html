@@ -47,10 +47,8 @@
           <select id="filemenu" name="filemenu">
             <option value="default">--</option>
             <option value="writeimg">画像出力</option>
-            <!--
             <option value="writeurl">URL形式出力</option>
             <option value="readurl">URL形式読込</option>
-            -->
             <option value="writejson">JSON形式出力</option>
             <option value="readjson">JSON形式読込</option>
           </select>
@@ -115,7 +113,7 @@
         <div class="popup_content">
           <p>URL出力</p>
           <form>
-            <textarea id="display_url" rows="5" cols="32"></textarea><br>
+            <textarea id="display_url" rows="5" cols="32" readonly></textarea><br>
             <input type="button" id="writeurl_ok" value="OK">
           </form>
         </div>

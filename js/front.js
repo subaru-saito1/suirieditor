@@ -28,6 +28,8 @@ function fileMenu(evt) {
   if (menu === 'writeimg') {
     $('#popup_writeimg').addClass('active');
   } else if (menu === 'writeurl') {
+    let url = Suiripuz.board.urlWrite();
+    $('#display_url').val(url);
     $('#popup_writeurl').addClass('active');
   } else if (menu === 'readurl') {
     $('#popup_readurl').addClass('active');
@@ -64,10 +66,17 @@ function imgWrite() {
 function urlWrite() {
   $('#popup_writeurl').removeClass('active');
 }
+
 /**
  * URL読込
  */
 function urlRead() {
+  let url = $('#input_url').val();
+  let urlquery = url.split('?');
+  if (urlquery.length > 1) {
+    Suiripuz.board.urlRead(urlquery[1]);
+    Suiripuz.drawer.drawCanvas(Suiripuz.board);
+  }
   $('#popup_readurl').removeClass('active');
 }
 
