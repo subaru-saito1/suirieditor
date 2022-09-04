@@ -59,7 +59,11 @@ class Board {
         for (let i = 0; i < this.numItems; i++) {
           this.cells[bi][bj].push([]);
           for (let j = 0; j < this.numItems; j++) {
-            this.cells[bi][bj][i].push('');
+            let cell_obj = {};
+            cell_obj.contents = '';   // 空白、o, x
+            cell_obj.textcolor = 0;   // メイン色
+            cell_obj.bgcolor = 0;     // 背景色
+            this.cells[bi][bj][i].push(cell_obj);
           }
         }
       }
@@ -98,7 +102,7 @@ class Board {
     }
     // 最大項目長を計算
     this.calcItemSize();
-    this.initCells();
+    this.initCells();     // セルの初期化 (todo: jsonの中身を反映)
   }
 
   /**
@@ -142,7 +146,9 @@ class Board {
       for (let bj = 0; bj < this.numElems - bi - 1; bj++) {
         for (let i = 0; i < this.numItems; i++) {
           for (let j = 0; j < this.numItems; j++) {
-            this.cells[bi][bj][i][j] = '';
+            this.cells[bi][bj][i][j].contents = '';
+            this.cells[bi][bj][i][j].textcolor = 0;
+            this.cells[bi][bj][i][j].bgcolor = 0;
           }
         }
       }
@@ -221,7 +227,7 @@ class Board {
     }
     // 最大項目長を計算
     this.calcItemSize();
-    this.initCells();
+    this.initCells();      // セルの初期化
   }
 }
 
@@ -244,8 +250,8 @@ class Drawer {
     this.colors = {
       'bg': '#ffffff',
       'bd': '#333333',
-      'in': '#008000',
     };
+    this.colorid_in = 0;    // 現在のテキスト色ID
     this.colors_in_list = [
       '#008000',  // 0: green (default)
       '#ff0000',  // 1: red
@@ -255,6 +261,7 @@ class Drawer {
       '#ff00ff',  // 5: magenta
       '#696969',  // 6: gray
     ]
+    this.colorid_bg = 0;
     this.colors_bg_list = [
       '#ffffff',  // 0: white (default)
       '#ffc0cb',  // 1: red
@@ -301,22 +308,23 @@ class Drawer {
    */
   drawCell(board, ctx) {
     // オフセットの計算
-    let ofsx = this.offset + (board.maxItemSize + 1) * this.csize;
-    let ofsy = this.offset + (board.maxItemSize + 1) * this.csize;
+    const ofsx = this.offset + (board.maxItemSize + 1) * this.csize;
+    const ofsy = this.offset + (board.maxItemSize + 1) * this.csize;
     for (let bi = 0; bi < board.numElems - 1; bi++) {
       for (let bj = 0; bj < board.numElems - 1 - bi; bj++) {
         // 境界オフセット値計算
-        let bdofsx = ofsx + bj * board.numItems * this.csize;
-        let bdofsy = ofsy + bi * board.numItems * this.csize;
-        let bdsize = board.numItems * this.csize;
+        const bdofsx = ofsx + bj * board.numItems * this.csize;
+        const bdofsy = ofsy + bi * board.numItems * this.csize;
+        const bdsize = board.numItems * this.csize;
         for (let i = 0; i < board.numItems; i++) {
           for (let j = 0; j < board.numItems; j++) {
             // オフセット値計算
-            let cofsx = bdofsx + j * this.csize;
-            let cofsy = bdofsy + i * this.csize;
-            let cval = board.cells[bi][bj][i][j];
+            const cofsx = bdofsx + j * this.csize;
+            const cofsy = bdofsy + i * this.csize;
+            const cval = board.cells[bi][bj][i][j].contents;
+            const ccolor = board.cells[bi][bj][i][j].textcolor;
             this.drawRect(ctx, cofsx, cofsy, this.csize, this.csize);
-            this.drawCellText(ctx, cofsx, cofsy, cval);
+            this.drawCellText(ctx, cofsx, cofsy, cval, ccolor);
           }
         }
         this.drawBorder(board, ctx, bdofsx, bdofsy, bdsize, bdsize)
@@ -581,8 +589,8 @@ class Drawer {
   /**
    * セル描画関数：テキスト部分
    */
-  drawCellText(ctx, ofsx, ofsy, c) {
-    ctx.strokeStyle = this.colors.in;
+  drawCellText(ctx, ofsx, ofsy, c, ccolor) {
+    ctx.strokeStyle = this.colors_in_list[ccolor];
     if (c === 'o') {
       ctx.lineWidth = 2;
       let cx = ofsx + this.csize / 2;
