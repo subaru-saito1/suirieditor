@@ -59,6 +59,20 @@
           <label for="setsize">　サイズ</label>
           <input type="number" id="setsize" title="サイズを設定します"
                  min="8" max="64" step="1" value="24">
+          <br>
+
+          <!-- 色設定フォーム -->
+          <label for="text_color">解答の色</label>
+          <select id="text_color" name="text_color">
+            <option value="0">緑（デフォルト）</option>
+            <option value="1">赤</option>
+            <option value="2">青</option>
+            <option value="3">黄</option>
+            <option value="4">紫</option>
+            <option value="5">桃</option>
+            <option value="6">灰</option>
+          </select>
+          
         </div>
       </form>
 
@@ -101,7 +115,7 @@
       <div class="popup_overlay" id="popup_writeimg">
         <div class="popup_content">
           <p>画像保存</p>
-          <form>
+          <form onsubmit="$('#writeimg_ok').click(); return false;">
             <input type="text" id="writeimg_filename" size="20" value="suiri.png"><br>
             <input type="button" id="writeimg_ok" value="OK">
             <input type="button" id="writeimg_ng" value="キャンセル">
@@ -133,7 +147,7 @@
       <div class="popup_overlay" id="popup_writejson">
         <div class="popup_content">
           <p>JSON形式で保存</p>
-          <form>
+          <form onsubmit="$('#writejson_ok').click(); return false;">
             <input type="text" id="writejson_filename" size="20" value="suiri.json"><br>
             <input type="button" id="writejson_ok" value="OK">
             <input type="button" id="writejson_ng" value="キャンセル">
@@ -155,7 +169,7 @@
       <div class="popup_overlay" id="popup_itemform">
         <div class="popup_content">
           <p id="itemform_label">項目名入力</p>
-          <form>
+          <form onsubmit="$('#itemform_ok').click(); return false;">
             <input type="text" id="itemform" size="10"><br>
             <input type="hidden" id="itemform_elidx">
             <input type="hidden" id="itemform_itemidx">
@@ -178,7 +192,7 @@
             <input type="number" id="elemform_subsize" min="1" max="5" step="1" value="5">
             <input type="hidden" id="elemform_elidx"><br>
             <input type="button" id="elemform_ok" value="OK">
-            <input type="button" id="itemform_ng" value="キャンセル">
+            <input type="button" id="elemform_ng" value="キャンセル">
           </form>
         </div>
       </div>
