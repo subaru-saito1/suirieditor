@@ -246,6 +246,22 @@ class Drawer {
       'bd': '#333333',
       'in': '#008000',
     };
+    this.colors_in_list = [
+      '#008000',  // 0: green (default)
+      '#ff0000',  // 1: red
+      '#0000ff',  // 2: blue
+      '#ffa500',  // 3: orange
+      '#4b0082',  // 4: purple
+      '#ff00ff',  // 5: magenta
+      '#696969',  // 6: gray
+    ]
+    this.colors_bg_list = [
+      '#ffffff',  // 0: white (default)
+      '#ffc0cb',  // 1: red
+      '#afeeee',  // 2: blue
+      '#fffacd',  // 3: yellow
+      '#98fb98',  // 4: green
+    ]
     this.fontratio = 0.7;
     this.fontdivide = 1.6;
   }
@@ -644,7 +660,7 @@ class Drawer {
   }
   drawCursorElem(ctx, obj) {
   }
-  drawwCursorSubel(ctx, obj) {
+  drawCursorSubel(ctx, obj) {
   }
 
 }

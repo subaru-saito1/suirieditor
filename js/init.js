@@ -24,10 +24,11 @@ let urlquery = location.href.split('?');
 if (urlquery.length > 1) {
   Suiripuz.board.urlRead(urlquery[1]);
 }
-// イベントハンドラ設定
-setEventHundler();
-// 初回描画
+setEventHandler();
 Suiripuz.drawer.drawCanvas(Suiripuz.board);
+
+
+/* ======================================================================== */
 
 
 /**
@@ -45,13 +46,15 @@ function initBoard() {
 /**
  * イベントハンドラの設定
  */
-function setEventHundler() {
+function setEventHandler() {
   // 新規作成
   $('#newfile_ok').click(newFile);
   // ファイル処理
   $('#filemenu_go').click(fileMenu);
   // サイズ変更
   $('#setsize').change(setSize);
+  // 解答色変更
+  $('#text_color').change(changeTextColor);
   // 問題入力モード
   $('#opform_qmode').change(setQmode);
   // 解答入力モード
@@ -85,7 +88,7 @@ function setEventHundler() {
   $('#subelform_ok').click(inputSubel);
   $('#subelform_del').click(deleteSubel);
   // キャンセルボタン
-  $('#itemform_ng, #elementform_ng, #subelform_ng').click(closePopup);
+  $('#itemform_ng, #elemform_ng, #subelform_ng').click(closePopup);
 
   // ページ離脱時の警告
   window.addEventListener('beforeunload', function(evt) {
