@@ -141,7 +141,7 @@ function setSize(evt) {
  */
 function changeTextColor(evt) {
   const new_color_id = evt.currentTarget.value;   // optionのvalue値取得
-  Suiripuz.drawer.colors.in = Suiripuz.drawer.colors_in_list[new_color_id];
+  Suiripuz.drawer.colorid_in = new_color_id;
   Suiripuz.drawer.drawCanvas(Suiripuz.board);  // 再描画
 }
 
@@ -186,7 +186,9 @@ function answerClear(evt) {
 }
 
 
-// ==================================================================================
+// ===========================================================================
+//                      盤面(Canvas) フロントインタフェース
+// ===========================================================================
 
 /**
  * 盤面クリック
@@ -361,22 +363,23 @@ function identifySubelems(elidx, n) {
  * button: 0で左、2で右
  */
 function clickCell(obj, button) {
-  let cellval = Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j];
+  let cellval = Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents;
+  Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].textcolor = Suiripuz.drawer.colorid_in;
   if (button === 0) {
     if (cellval === '') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'o';
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'o';
     } else if (cellval === 'o') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'x';
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'x';
     } else {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = '';
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = '';
     }
   } else if (button === 2) {
     if (cellval === '') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'x';
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'x';
     } else if (cellval === 'x') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = 'o';
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'o';
     } else {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j] = '';
+      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = '';
     }
   }
 }
