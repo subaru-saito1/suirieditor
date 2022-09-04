@@ -136,6 +136,15 @@ function setSize(evt) {
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
+/**
+ * 解答モード：入力色変更
+ */
+function changeTextColor(evt) {
+  const new_color_id = evt.currentTarget.value;   // optionのvalue値取得
+  Suiripuz.drawer.colors.in = Suiripuz.drawer.colors_in_list[new_color_id];
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);  // 再描画
+}
+
 
 /**
  * 問題入力モード変更
@@ -374,7 +383,7 @@ function clickCell(obj, button) {
 
 
 // ===================================================================================
-// キーボード入力インタフェース
+// テキスト入力インタフェース
 
 /**
  * 項目名ポップアップ表示
