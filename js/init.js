@@ -15,7 +15,8 @@ let Suiripuz = {}
 // Suiripuz.astack = new ActionStack();
 Suiripuz.board = new Board();
 Suiripuz.config = {
-  qamode: 'question',
+  qamode: 'question',   // question or answer
+  inputmode: 'text',    // text or bg
 }
 Suiripuz.drawer = new Drawer();
 
