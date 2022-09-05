@@ -100,32 +100,11 @@ class Board {
       }
       this.elements.push(el);
     }
-    // 最大項目長を計算
-    this.calcItemSize();
+    this.calcItemSize();  // 項目の最大長を計算
     this.initCells();     // セルの初期化 (todo: jsonの中身を反映)
   }
 
-  /**
-   * 項目の最大長を計算
-   */
-  calcItemSize() {
-    const fontratio = Suiripuz.drawer.fontratio;
-    let maxitemsize = this.minItemSize;
-    for (let el of this.elements) {
-      let initsize = 0;
-      // サブカテゴリ分の幅を考慮
-      if (el.subelements.length > 0) {
-        initsize = 1;
-      }
-      for (let it of el.items) {
-        let itemsize = initsize + it.length * fontratio;
-        if (itemsize > maxitemsize) {
-          maxitemsize = itemsize;
-        }
-      }
-    }
-    this.maxItemSize = maxitemsize;
-  }
+  
 
   /**
    * 現在の盤面をJSON形式の文字列で返す 
@@ -136,23 +115,6 @@ class Board {
     obj.numItems = this.numItems;
     obj.elements = this.elements;
     return JSON.stringify(obj, null, 2);
-  }
-
-  /**
-   * 現在の解答盤面を消去する
-   */
-  ansClear() {
-    for (let bi = 0; bi < this.numElems - 1; bi++) {
-      for (let bj = 0; bj < this.numElems - bi - 1; bj++) {
-        for (let i = 0; i < this.numItems; i++) {
-          for (let j = 0; j < this.numItems; j++) {
-            this.cells[bi][bj][i][j].contents = '';
-            this.cells[bi][bj][i][j].textcolor = 0;
-            this.cells[bi][bj][i][j].bgcolor = 0;
-          }
-        }
-      }
-    }
   }
 
   /**
@@ -225,9 +187,92 @@ class Board {
       }
       this.elements.push(el);
     }
-    // 最大項目長を計算
-    this.calcItemSize();
+    this.calcItemSize();   // 項目の最大長を計算
     this.initCells();      // セルの初期化
+  }
+
+  /**
+   * 現在の解答盤面を消去する
+   */
+  ansClear() {
+    for (let bi = 0; bi < this.numElems - 1; bi++) {
+      for (let bj = 0; bj < this.numElems - bi - 1; bj++) {
+        for (let i = 0; i < this.numItems; i++) {
+          for (let j = 0; j < this.numItems; j++) {
+            this.cells[bi][bj][i][j].contents = '';
+            this.cells[bi][bj][i][j].textcolor = 0;
+            this.cells[bi][bj][i][j].bgcolor = 0;
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * クリック時のセル変更処理
+   * args: マスの座標(bi, bj, i, j) ＋ マウスボタン番号
+   */
+  changeCellByClick(bi, bj, i, j, button) {
+    // 通常入力モード
+    if (Suiripuz.config.inputmode === 'text') {
+      const current_val = this.cells[bi][bj][i][j].contents;
+      this.cells[bi][bj][i][j].textcolor = Suiripuz.drawer.colorid_in;
+      if (button === 0) {         // 左クリック
+        if (current_val=== '') {
+          this.cells[bi][bj][i][j].contents = 'o';
+        } else if (current_val === 'o') {
+          this.cells[bi][bj][i][j].contents = 'x';
+        } else {
+          this.cells[bi][bj][i][j].contents = '';
+        }
+      } else if (button === 2) {  //右クリック
+        if (current_val === '') {
+          this.cells[bi][bj][i][j].contents = 'x';
+        } else if (current_val === 'x') {
+          this.cells[bi][bj][i][j].contents = 'o';
+        } else {
+          this.cells[bi][bj][i][j].contents = '';
+        }
+      }
+    }
+    // 背景色変更モード
+    else if (Suiripuz.config.inputmode === 'bg') {
+      const cell_color = this.cells[bi][bj][i][j].bgcolor;
+      if (cell_color == Suiripuz.drawer.colorid_bg) {
+        this.cells[bi][bj][i][j].bgcolor = 0;
+      } else {
+        this.cells[bi][bj][i][j].bgcolor = Suiripuz.drawer.colorid_bg;
+      }
+    }
+    // ここにきたらおかしいのでエラー
+    else {
+      console.log("Something Wrong! (in Board::changeCellByClick");
+      console.log("config.inputmode: " + Suiripuz.config.inputmode);
+    }
+  }
+
+  /* ================= Boardクラス　ユーティリティ ====================== */
+
+  /**
+   * 項目の最大長を計算
+   */
+  calcItemSize() {
+    const fontratio = Suiripuz.drawer.fontratio;
+    let maxitemsize = this.minItemSize;
+    for (let el of this.elements) {
+      let initsize = 0;
+      // サブカテゴリ分の幅を考慮
+      if (el.subelements.length > 0) {
+        initsize = 1;
+      }
+      for (let it of el.items) {
+        let itemsize = initsize + it.length * fontratio;
+        if (itemsize > maxitemsize) {
+          maxitemsize = itemsize;
+        }
+      }
+    }
+    this.maxItemSize = maxitemsize;
   }
 }
 
@@ -255,21 +300,21 @@ class Drawer {
     this.colors_in_list = [
       [0  , 0  , 0.3 ],  // 0: gray
       [0  , 1.0, 0.5 ],  // 1: red
-      [60 , 1.0, 0.35],  // 2: yellow
+      [40 , 1.0, 0.4 ],  // 2: yellow
       [120, 1.0, 0.3 ],  // 3: green (def)
-      [180, 1.0, 0.35],  // 4: cyan
+      [180, 1.0, 0.4 ],  // 4: cyan
       [240, 1.0, 0.5 ],  // 5: blue
       [300, 1.0, 0.5 ],  // 6: purple
     ];
     this.colorid_bg = 0;
     this.colors_bg_list = [
-      [0  , 0  , 1.0 ],  // 0: gray
-      [0  , 1.0, 0.75],  // 1: red
-      [60 , 1.0, 0.75],  // 2: yellow
-      [120, 1.0, 0.75],  // 3: green (def)
-      [180, 1.0, 0.75],  // 4: cyan
-      [240, 1.0, 0.75],  // 5: blue
-      [300, 1.0, 0.75],  // 6: purple
+      [0  , 0  , 1.0 ],  // 0: white
+      [0  , 1.0, 0.9],  // 1: red
+      [60 , 1.0, 0.9],  // 2: yellow
+      [120, 1.0, 0.9],  // 3: green (def)
+      [180, 1.0, 0.9],  // 4: cyan
+      [240, 1.0, 0.9],  // 5: blue
+      [300, 1.0, 0.9],  // 6: purple
     ]
     this.fontratio = 0.7;
     this.fontdivide = 1.6;
@@ -325,7 +370,8 @@ class Drawer {
             const cofsy = bdofsy + i * this.csize;
             const cval = board.cells[bi][bj][i][j].contents;
             const ccolor = board.cells[bi][bj][i][j].textcolor;
-            this.drawRect(ctx, cofsx, cofsy, this.csize, this.csize);
+            const cbgcolor = board.cells[bi][bj][i][j].bgcolor;
+            this.drawRect(ctx, cofsx, cofsy, this.csize, this.csize, cbgcolor);
             this.drawCellText(ctx, cofsx, cofsy, cval, ccolor);
           }
         }
@@ -337,10 +383,10 @@ class Drawer {
   /**
    * 矩形領域描画（汎用）
    */
-  drawRect(ctx, ofsx, ofsy, width, height) {
+  drawRect(ctx, ofsx, ofsy, width, height, bgcolor=0) {
     ctx.strokeStyle = this.colors.bd;
     ctx.lineWidth = 1.5;
-    ctx.fillStyle = this.colors.bg;
+    ctx.fillStyle = this.strHsl(this.colors_bg_list[bgcolor]);
     ctx.strokeRect(ofsx, ofsy, width, height);
     ctx.fillRect(ofsx, ofsy, width, height);
   }
@@ -631,7 +677,6 @@ class Drawer {
   }
 
   /* ====================== ユーティリティ系 ============================== */
-  // 関数の名前空間がほしいのでクラスメソッドとして実装
 
   /**
    * 文字が数字かどうかチェック。下の関数を併用
