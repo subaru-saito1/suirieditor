@@ -32,18 +32,6 @@ Suiripuz.drawer.drawCanvas(Suiripuz.board);
 
 
 /**
- * 初回盤面生成処理
- */
-function initBoard() {
-  new Board();
-  let urlquery = location.href.split('?');
-  if (urlquery.length > 1) {
-
-  }
-}
-
-
-/**
  * イベントハンドラの設定
  */
 function setEventHandler() {
@@ -55,16 +43,18 @@ function setEventHandler() {
   $('#setsize').change(setSize);
   // 解答色変更
   $('#text_color').change(changeTextColor);
+  // 背景色変更
+  $('#bg_color').change(changeBgColor);
   // 問題入力モード
   $('#opform_qmode').change(setQmode);
   // 解答入力モード
   $('#opform_amode').change(setAmode);
   // 戻る
-  $('#opform_undo').click(actionUndo);
+  $('#opform_undo').click(undoAction);
   // 進む
-  $('#opform_redo').click(actionRedo);
+  $('#opform_redo').click(redoAction);
   // 解答消去
-  $('#opform_clear').click(answerClear);
+  $('#opform_clear').click(clearAnswer);
 
   // キャンバス
   $('canvas').click(clickBoard);

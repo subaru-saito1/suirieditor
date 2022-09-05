@@ -142,7 +142,17 @@ function setSize(evt) {
 function changeTextColor(evt) {
   const new_color_id = evt.currentTarget.value;   // optionのvalue値取得
   Suiripuz.drawer.colorid_in = new_color_id;
-  Suiripuz.drawer.drawCanvas(Suiripuz.board);  // 再描画
+}
+
+/**
+ * 解答モード：背景色変更
+ */
+function changeBgColor(evt) {
+  const new_color_id = evt.currentTarget.value;  // optionのvalue値取得
+  Suiripuz.drawer.colorid_bg = new_color_id;
+  // todo
+  // new_color_id == 0 のときは通常モードに移行
+  // new_color_id != 0 のときは背景モードに移行
 }
 
 
@@ -166,21 +176,21 @@ function setAmode(evt) {
 /**
  * 戻る
  */
-function actionUndo(evt) {
+function undoAction(evt) {
   console.log('戻る');
 }
 
 /**
  * 進む
  */
-function actionRedo(evt) {
+function redoAction(evt) {
   console.log('進む');
 }
 
 /**
  * 解答消去
  */
-function answerClear(evt) {
+function clearAnswer(evt) {
   Suiripuz.board.ansClear();
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
@@ -189,6 +199,10 @@ function answerClear(evt) {
 // ===========================================================================
 //                      盤面(Canvas) フロントインタフェース
 // ===========================================================================
+
+// TODO
+// boardに直接書き込む部分はBoardクラス内部で実装するようにする。
+// front.jsから直接boardに書き込むのはなるべく避けたい。
 
 /**
  * 盤面クリック
