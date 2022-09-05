@@ -61,7 +61,7 @@ class Board {
           for (let j = 0; j < this.numItems; j++) {
             let cell_obj = {};
             cell_obj.contents = '';   // 空白、o, x
-            cell_obj.textcolor = 0;   // メイン色
+            cell_obj.textcolor = 3;   // メイン色
             cell_obj.bgcolor = 0;     // 背景色
             this.cells[bi][bj][i].push(cell_obj);
           }
@@ -251,23 +251,25 @@ class Drawer {
       'bg': '#ffffff',
       'bd': '#333333',
     };
-    this.colorid_in = 0;    // 現在のテキスト色ID
+    this.colorid_in = 3;    // 現在のテキスト色ID
     this.colors_in_list = [
-      '#008000',  // 0: green (default)
-      '#ff0000',  // 1: red
-      '#0000ff',  // 2: blue
-      '#ffa500',  // 3: orange
-      '#4b0082',  // 4: purple
-      '#ff00ff',  // 5: magenta
-      '#696969',  // 6: gray
-    ]
+      [0  , 0  , 0.3 ],  // 0: gray
+      [0  , 1.0, 0.5 ],  // 1: red
+      [60 , 1.0, 0.35],  // 2: yellow
+      [120, 1.0, 0.3 ],  // 3: green (def)
+      [180, 1.0, 0.35],  // 4: cyan
+      [240, 1.0, 0.5 ],  // 5: blue
+      [300, 1.0, 0.5 ],  // 6: purple
+    ];
     this.colorid_bg = 0;
     this.colors_bg_list = [
-      '#ffffff',  // 0: white (default)
-      '#ffc0cb',  // 1: red
-      '#afeeee',  // 2: blue
-      '#fffacd',  // 3: yellow
-      '#98fb98',  // 4: green
+      [0  , 0  , 1.0 ],  // 0: gray
+      [0  , 1.0, 0.75],  // 1: red
+      [60 , 1.0, 0.75],  // 2: yellow
+      [120, 1.0, 0.75],  // 3: green (def)
+      [180, 1.0, 0.75],  // 4: cyan
+      [240, 1.0, 0.75],  // 5: blue
+      [300, 1.0, 0.75],  // 6: purple
     ]
     this.fontratio = 0.7;
     this.fontdivide = 1.6;
@@ -538,8 +540,8 @@ class Drawer {
    */
   drawContentsTate(ctx, cx, cy, c) {
     // 漢数字に変換
-    if (this.isdigit(c)) {
-      c = this.numKanjiConvert(c);
+    if (this.isDigit(c)) {
+      c = this.convertNum2Kanji(c);
     } else if (c === 'ー' || c === '-') {
       c = '|'
     }
@@ -590,7 +592,7 @@ class Drawer {
    * セル描画関数：テキスト部分
    */
   drawCellText(ctx, ofsx, ofsy, c, ccolor) {
-    ctx.strokeStyle = this.colors_in_list[ccolor];
+    ctx.strokeStyle = this.strHsl(this.colors_in_list[ccolor]);
     if (c === 'o') {
       ctx.lineWidth = 2;
       let cx = ofsx + this.csize / 2;
@@ -628,47 +630,30 @@ class Drawer {
     ctx.fillText(ch, x, y);
   }
 
+  /* ====================== ユーティリティ系 ============================== */
+  // 関数の名前空間がほしいのでクラスメソッドとして実装
+
   /**
    * 文字が数字かどうかチェック。下の関数を併用
    */
-  isdigit(ch) {
+  isDigit(ch) {
     return ((ch >= '0') && ch <= '9');
   }
   /**
    * 縦書きの場合、数字を漢数字に直す
    */
-  numKanjiConvert(ch) {
+  convertNum2Kanji(ch) {
     const kanji = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
     return kanji[parseInt(ch)];
   }
-  
-  /**
-   * カーソル描画（テキスト入力インタフェースから呼び出し）
-   * 実装がかなり面倒だと気付き今のところ放置。
-   * objについて
-   *   type: item => elidx, idx
-   *   type: elem => elidx
-   *   type: elem => elidx, subelidx
-   */
-  drawCursor(obj) {
-    // drawCanvasとは別の場所から呼ばれるのでコンテキスト取得
-    const canvas = document.querySelector('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#ff0000';
-    if (obj.type === 'item') {
-      this.drawCursorItem(ctx, obj);
-    } else if (obj.type === 'elem') {
-      this.drawCursorElem(ctx, obj);
-    } else if (obj.type === 'subel') {
-      this.drawCursorSubel(ctx, obj);
-    }
-  }
-  drawCursorItem(ctx, obj) {
-  }
-  drawCursorElem(ctx, obj) {
-  }
-  drawCursorSubel(ctx, obj) {
-  }
 
+  /**
+   * HSLの配列の値から Canvas, CSSで使用するHSL文字列を生成
+   */
+  strHsl(hsl_list) {
+    let ret = "hsl(" + hsl_list[0] + ", ";
+    ret += (hsl_list[1] * 100) + "%, ";
+    ret += (hsl_list[2] * 100) + "%)";
+    return ret;
+  }
 }
