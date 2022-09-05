@@ -150,11 +150,13 @@ function changeTextColor(evt) {
 function changeBgColor(evt) {
   const new_color_id = evt.currentTarget.value;  // optionのvalue値取得
   Suiripuz.drawer.colorid_bg = new_color_id;
-  // todo
-  // new_color_id == 0 のときは通常モードに移行
-  // new_color_id != 0 のときは背景モードに移行
+  // new_color_id == 0 のときは通常モードへ、それ以外のときは背景入力モードへ移行。
+  if (new_color_id == 0) {
+    Suiripuz.config.inputmode = 'text';
+  } else {
+    Suiripuz.config.inputmode = 'bg';
+  }
 }
-
 
 /**
  * 問題入力モード変更
@@ -163,7 +165,6 @@ function setQmode(evt) {
   Suiripuz.config.qamode = 'question';
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
-
 /**
  * 解答入力モード変更
  */
@@ -171,15 +172,12 @@ function setAmode(evt) {
   Suiripuz.config.qamode = 'answer';
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
-
-
 /**
  * 戻る
  */
 function undoAction(evt) {
   console.log('戻る');
 }
-
 /**
  * 進む
  */
@@ -377,25 +375,8 @@ function identifySubelems(elidx, n) {
  * button: 0で左、2で右
  */
 function clickCell(obj, button) {
-  let cellval = Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents;
-  Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].textcolor = Suiripuz.drawer.colorid_in;
-  if (button === 0) {
-    if (cellval === '') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'o';
-    } else if (cellval === 'o') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'x';
-    } else {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = '';
-    }
-  } else if (button === 2) {
-    if (cellval === '') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'x';
-    } else if (cellval === 'x') {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = 'o';
-    } else {
-      Suiripuz.board.cells[obj.bi][obj.bj][obj.i][obj.j].contents = '';
-    }
-  }
+  // Boardクラスに委譲
+  Suiripuz.board.changeCellByClick(obj.bi, obj.bj, obj.i, obj.j, button);
 }
 
 
