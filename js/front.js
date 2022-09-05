@@ -228,6 +228,19 @@ function clickBoard(evt) {
 }
 
 /**
+ * 盤面をなぞる（トラッキング用）
+ */
+function trackBoard(evt) {
+  const objinfo = identifyClickPos(evt.offsetX, evt.offsetY);
+  if (objinfo.type === 'cell') {
+    Suiripuz.drawer.setHighlight(objinfo.bi, objinfo.bj, objinfo.i, objinfo.j);
+  } else {
+    Suiripuz.drawer.unsetHighlight();
+  }
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
+}
+
+/**
  * マウス座標から盤面オブジェクトを特定する関数（大枠）
  */
 function identifyClickPos(mx, my) {
@@ -368,7 +381,6 @@ function identifySubelems(elidx, n) {
   }
   return ret;
 }
-
 
 /**
  * セルクリック時の処理

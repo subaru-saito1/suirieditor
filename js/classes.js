@@ -318,6 +318,7 @@ class Drawer {
     ]
     this.fontratio = 0.7;
     this.fontdivide = 1.6;
+    this.highlight_cell = [];   // ハイライトをかける中心セル
   }
 
   /**
@@ -328,7 +329,7 @@ class Drawer {
     const ctx = canvas.getContext('2d');
 
     // 背景描画
-    let [maxwidth, maxheight] = this.getCanvasSize(Suiripuz.board);
+    let [maxwidth, maxheight] = this.getCanvasSize(board);
     canvas.setAttribute('width', maxwidth);
     canvas.setAttribute('height', maxheight);
     ctx.fillStyle = this.colors.bg;
@@ -370,7 +371,7 @@ class Drawer {
             const cofsy = bdofsy + i * this.csize;
             const cval = board.cells[bi][bj][i][j].contents;
             const ccolor = board.cells[bi][bj][i][j].textcolor;
-            const cbgcolor = board.cells[bi][bj][i][j].bgcolor;
+            const cbgcolor = this.getCellColor(board, bi, bj, i, j);
             this.drawRect(ctx, cofsx, cofsy, this.csize, this.csize, cbgcolor);
             this.drawCellText(ctx, cofsx, cofsy, cval, ccolor);
           }
@@ -383,10 +384,10 @@ class Drawer {
   /**
    * 矩形領域描画（汎用）
    */
-  drawRect(ctx, ofsx, ofsy, width, height, bgcolor=0) {
+  drawRect(ctx, ofsx, ofsy, width, height, bgcolor=this.colors.bg) {
     ctx.strokeStyle = this.colors.bd;
     ctx.lineWidth = 1.5;
-    ctx.fillStyle = this.strHsl(this.colors_bg_list[bgcolor]);
+    ctx.fillStyle = bgcolor;
     ctx.strokeRect(ofsx, ofsy, width, height);
     ctx.fillRect(ofsx, ofsy, width, height);
   }
@@ -675,6 +676,49 @@ class Drawer {
     ctx.font = fontsize + 'px sans-serif';
     ctx.fillText(ch, x, y);
   }
+
+
+  /* =========================  ハイライト設定 ============================ */
+  setHighlight(bi, bj, i, j) {
+    this.highlight_cell = [bi, bj, i, j];
+  }
+  unsetHighlight() {
+    this.highlight_cell = [];
+  }
+
+  /**
+   * ハイライト＋周辺セルの色を補正
+   */
+  getCellColor(board, bi, bj, i, j) {
+    const base_color_id = board.cells[bi][bj][i][j].bgcolor;
+    const base_color = this.colors_bg_list[base_color_id];
+    let highlight_color = base_color;
+    if (this.isHighlightTarget(bi, bj, i, j)) {
+      if (base_color_id == 0) {
+        highlight_color = [base_color[0], base_color[1], base_color[2] - 0.05];
+      } else {
+        highlight_color = [base_color[0], base_color[1] - 0.2, base_color[2]];
+      }
+    }
+    return this.strHsl(highlight_color);
+  }
+  /**
+   * ハイライト対象載せるかどうか判定
+   */
+  isHighlightTarget(bi, bj, i, j) {
+    const cbi = this.highlight_cell[0];
+    const cbj = this.highlight_cell[1];
+    const ci  = this.highlight_cell[2];
+    const cj  = this.highlight_cell[3];
+    /*
+    if (bi == cbi && bj == cbj && i == ci && j == cj) {
+      return false;
+    }
+    */
+    // 暫定：同じ縦列・横列の他マス
+    return ((bi == cbi && i == ci) || (bj == cbj && j == cj));
+  }
+
 
   /* ====================== ユーティリティ系 ============================== */
 
