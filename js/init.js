@@ -60,6 +60,7 @@ function setEventHandler() {
   // キャンバス
   $('canvas').click(clickBoard);
   $('canvas').on('contextmenu', clickBoard);  // 右クリック上書き
+  $('canvas').mousemove(trackBoard);
   /*
   $('canvas').keydown(keyDownBoard);
   $('canvas').blur(blurBoard);
