@@ -73,7 +73,7 @@ class Board {
   /**
    * JSON形式オブジェクトを読込
    */
-  jsonRead(obj) {
+  readJson(obj) {
     this.numElems = obj.numElems;
     this.numItems = obj.numItems;
     this.maxCellSize = this.numItems * (this.numElems - 1);
@@ -109,7 +109,7 @@ class Board {
   /**
    * 現在の盤面をJSON形式の文字列で返す 
    */
-  jsonWrite() {
+  writeJson() {
     let obj = {}
     obj.numElems = this.numElems;
     obj.numItems = this.numItems;
@@ -120,30 +120,30 @@ class Board {
   /**
    * URL書き出し
    */
-  urlWrite() {
+  writeUrl() {
     let url = 'https://subaru-saito1.github.io/suirieditor?';
     let splitchar = '_'
     url += (this.numElems);        // 要素数
-    url += ('_' + this.numItems);  // 項目数
+    url += (splitchar + this.numItems);  // 項目数
     for (let el of this.elements) {
       // 要素名エンコード
-      url += ('_' + encodeURIComponent(el.contents));
+      url += (splitchar + encodeURIComponent(el.contents));
       // サブ要素エンコード処理
-      url += ('_' + el.subelements.length);
+      url += (splitchar + el.subelements.length);
       for (let subel of el.subelements) {
-        url += ('_' + subel.type);
-        url += ('_' + subel.start);
-        url += ('_' + subel.size);
+        url += (splitchar + subel.type);
+        url += (splitchar + subel.start);
+        url += (splitchar + subel.size);
         if (subel.type === 0) {
-          url += ('_' + encodeURIComponent(subel.contents));
+          url += (splitchar + encodeURIComponent(subel.contents));
         } else {
-          url += ('_' + encodeURIComponent(subel.contents1));
-          url += ('_' + encodeURIComponent(subel.contents2));
+          url += (splitchar + encodeURIComponent(subel.contents1));
+          url += (splitchar + encodeURIComponent(subel.contents2));
         }
       } 
       // 項目エンコード
       for (let item of el.items) {
-        url += ('_' + encodeURIComponent(item));
+        url += (splitchar + encodeURIComponent(item));
       }
     }
     return url;
@@ -152,7 +152,7 @@ class Board {
   /**
    * URL読込（クエリ部分を読み込み）
    */
-  urlRead(query) {
+  readUrl(query) {
     let tokens = query.split('_');
     let cnt = 0;
     this.numElems = parseInt(tokens[cnt++]);
