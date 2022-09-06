@@ -199,7 +199,8 @@ function redoAction(evt) {
  * 解答消去
  */
 function clearAnswer(evt) {
-  Suiripuz.board.ansClear();
+  const opt_val = $('#clear_color').val();
+  Suiripuz.board.clearAns(opt_val);
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
