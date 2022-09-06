@@ -23,7 +23,7 @@ Suiripuz.drawer = new Drawer();
 // URL読込
 let urlquery = location.href.split('?');
 if (urlquery.length > 1) {
-  Suiripuz.board.urlRead(urlquery[1]);
+  Suiripuz.board.readUrl(urlquery[1]);
 }
 setEventHandler();
 Suiripuz.drawer.drawCanvas(Suiripuz.board);
@@ -67,11 +67,11 @@ function setEventHandler() {
   */
   
   // 各種ポップアップ
-  $('#writeimg_ok').click(imgWrite);
-  $('#writeurl_ok').click(urlWrite);
-  $('#readurl_ok').click(urlRead);
-  $('#writejson_ok').click(jsonWrite);
-  $('#readjson_ok').click(jsonRead);
+  $('#writeimg_ok').click(writeImg);
+  $('#writeurl_ok').click(writeUrl);
+  $('#readurl_ok').click(readUrl);
+  $('#writejson_ok').click(writeJson);
+  $('#readjson_ok').click(readJson);
   // キャンセルボタン（ポップアップウィンドウを閉じる）
   $('#writeimg_ng, #readurl_ng, #writejson_ng, #readjson_ng').click(closePopup);
   // テキスト入力用インタフェース

@@ -28,7 +28,7 @@ function fileMenu(evt) {
   if (menu === 'writeimg') {
     $('#popup_writeimg').addClass('active');
   } else if (menu === 'writeurl') {
-    let url = Suiripuz.board.urlWrite();
+    let url = Suiripuz.board.writeUrl();
     $('#display_url').val(url);
     $('#popup_writeurl').addClass('active');
   } else if (menu === 'readurl') {
@@ -43,7 +43,7 @@ function fileMenu(evt) {
 /**
  * 画像出力 
  */
-function imgWrite() {
+function writeImg() {
   const filename = $('#writeimg_filename').val();
   const canvas = document.querySelector('canvas');
   // todo: カーソルを表示しないで描画
@@ -63,18 +63,18 @@ function imgWrite() {
 /**
  * URL出力
  */
-function urlWrite() {
+function writeUrl() {
   $('#popup_writeurl').removeClass('active');
 }
 
 /**
  * URL読込
  */
-function urlRead() {
+function readUrl() {
   let url = $('#input_url').val();
   let urlquery = url.split('?');
   if (urlquery.length > 1) {
-    Suiripuz.board.urlRead(urlquery[1]);
+    Suiripuz.board.readUrl(urlquery[1]);
     Suiripuz.drawer.drawCanvas(Suiripuz.board);
   }
   $('#popup_readurl').removeClass('active');
@@ -83,9 +83,9 @@ function urlRead() {
 /**
  * JSON出力
  */
-function jsonWrite() {
+function writeJson() {
   const filename = $('#writejson_filename').val();
-  const jsonstr = Suiripuz.board.jsonWrite();
+  const jsonstr = Suiripuz.board.writeJson();
   const blob = new Blob([jsonstr], {type:"text/json"});
   let dlanchor = document.createElement('a');
   dlanchor.href = window.URL.createObjectURL(blob);
@@ -97,14 +97,14 @@ function jsonWrite() {
 /**
  * JSON読込
  */
-function jsonRead() {
+function readJson() {
   let file = $('#readjson_filename').prop('files')[0];
   let reader = new FileReader();
   reader.readAsText(file, 'UTF-8');
   // 読み込み完了時のコールバック処理
   reader.onload = function() {
     let jsonobj = JSON.parse(reader.result);
-    Suiripuz.board.jsonRead(jsonobj);
+    Suiripuz.board.readJson(jsonobj);
     Suiripuz.drawer.drawCanvas(Suiripuz.board);
   }
   $('#popup_readjson').removeClass('active');
