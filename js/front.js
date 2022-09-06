@@ -9,14 +9,14 @@
  * 新規盤面作成
  */
 function newFile(evt) {
-  const numElems = $('#newfile_elems').val();
-  const numItems = $('#newfile_items').val();
-  // 盤面新規作成
-  Suiripuz.astack = new ActionStack();
-  Suiripuz.board = new Board(numElems, numItems);
-  // to do: アクションスタック初期化
-  // 盤面再描画
-  Suiripuz.drawer.drawCanvas(Suiripuz.board);
+  if (confirm('新規作成しますか？\n（※この操作は元に戻せません）')) {
+    const numElems = $('#newfile_elems').val();
+    const numItems = $('#newfile_items').val();
+    // 盤面新規作成
+    Suiripuz.astack = new ActionStack();
+    Suiripuz.board = new Board(numElems, numItems);
+    Suiripuz.drawer.drawCanvas(Suiripuz.board);
+  }
 }
 
 
@@ -47,7 +47,6 @@ function fileMenu(evt) {
 function writeImg() {
   const filename = $('#writeimg_filename').val();
   const canvas = document.querySelector('canvas');
-  // todo: カーソルを表示しないで描画
   // 画像保存（一時的にダウンロード用リンクを生成）
   canvas.toBlob((blob) => {
     let dlanchor = document.createElement('a');
@@ -56,7 +55,6 @@ function writeImg() {
     dlanchor.click();
     dlanchor.remove();
   });
-  // todo: カーソルを表示して再描画
   // ポップアップを閉じる
   $('#popup_writeimg').removeClass('active');
 }
@@ -213,10 +211,6 @@ function clearAnswer(evt) {
 // ===========================================================================
 //                      盤面(Canvas) フロントインタフェース
 // ===========================================================================
-
-// TODO
-// boardに直接書き込む部分はBoardクラス内部で実装するようにする。
-// front.jsから直接boardに書き込むのはなるべく避けたい。
 
 /**
  * 盤面クリック
