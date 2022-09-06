@@ -12,6 +12,7 @@ function newFile(evt) {
   const numElems = $('#newfile_elems').val();
   const numItems = $('#newfile_items').val();
   // 盤面新規作成
+  Suiripuz.astack = new ActionStack();
   Suiripuz.board = new Board(numElems, numItems);
   // to do: アクションスタック初期化
   // 盤面再描画
@@ -76,6 +77,7 @@ function readUrl() {
   if (urlquery.length > 1) {
     Suiripuz.board.readUrl(urlquery[1]);
     Suiripuz.drawer.drawCanvas(Suiripuz.board);
+    Suiripuz.astack = new ActionStack();
   }
   $('#popup_readurl').removeClass('active');
 }
@@ -106,6 +108,7 @@ function readJson() {
     let jsonobj = JSON.parse(reader.result);
     Suiripuz.board.readJson(jsonobj);
     Suiripuz.drawer.drawCanvas(Suiripuz.board);
+    Suiripuz.astack = new ActionStack();
   }
   $('#popup_readjson').removeClass('active');
 }
@@ -238,6 +241,21 @@ function clickBoard(evt) {
     // 空白クリック時：何もしない
   }
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
+}
+
+/**
+ * 盤面キーボード入力
+ */
+function keyDownBoard(evt) {
+  console.log(evt);
+  if (evt.key == 'z' && evt.ctrlKey) {
+    Suiripuz.astack.undo();
+    Suiripuz.drawer.drawCanvas(Suiripuz.board);
+  }
+  if (evt.key == 'Z' && evt.ctrlKey) {
+    Suiripuz.astack.redo();
+    Suiripuz.drawer.drawCanvas(Suiripuz.board);
+  }
 }
 
 /**
