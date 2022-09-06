@@ -153,8 +153,16 @@ function changeBgColor(evt) {
   // new_color_id == 0 のときは通常モードへ、それ以外のときは背景入力モードへ移行。
   if (new_color_id == 0) {
     Suiripuz.config.inputmode = 'text';
+    // フォームUI処理（下記elseの状態から通常状態に戻す）
+    $('label[for="text_color"]').removeClass('inactive_form');
+    $('label[for="bg_color"').removeClass('active_form')
+    $('#text_color').prop('disabled', false)
   } else {
     Suiripuz.config.inputmode = 'bg';
+    // フォームUI処理（通常入力モードが無効化されたことを分かりやすく示す）
+    $('label[for="text_color"]').addClass('inactive_form');
+    $('label[for="bg_color"').addClass('active_form')
+    $('#text_color').prop('disabled', true);
   }
 }
 
@@ -163,6 +171,7 @@ function changeBgColor(evt) {
  */
 function setQmode(evt) {
   Suiripuz.config.qamode = 'question';
+  console.log('問題入力モード');
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 /**
@@ -170,6 +179,7 @@ function setQmode(evt) {
  */
 function setAmode(evt) {
   Suiripuz.config.qamode = 'answer';
+  console.log('解答入力モード');
   Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 /**

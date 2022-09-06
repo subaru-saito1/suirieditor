@@ -91,6 +91,17 @@ footer {
   margin: 5px;
 }
 
+// JSによるスタイル制御
+label {
+  color: #000;
+}
+label.inactive_form {
+  color: #888;
+}
+label.active_form {
+  font-weight: bold;
+}
+
 
 /* ======================================
  * キャンバス設定
