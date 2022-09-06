@@ -64,24 +64,24 @@
           <!-- 色設定フォーム -->
           <label for="text_color">解答の色</label>
           <select id="text_color" name="text_color">
-            <option value="0" style="color:hsl(0, 0%, 30%);">灰</option>
             <option value="1" style="color:hsl(0, 100%, 50%);">赤</option>
             <option value="2" style="color:hsl(40, 100%, 40%);">黄</option>
             <option value="3" style="color:hsl(120, 100%, 30%);" selected>緑　★</option>
             <option value="4" style="color:hsl(180, 100%, 40%);">水</option>
             <option value="5" style="color:hsl(240, 100%, 50%);">青</option>
             <option value="6" style="color:hsl(300, 100%, 50%);">紫</option>
+            <option value="7" style="color:hsl(0, 0%, 30%);">灰</option>
           </select>
           <!-- 背景色設定フォーム -->
-          <label for="bg_color">背景の色</label>
+          <label for="bg_color">マスの色</label>
           <select id="bg_color" name="bg_color">
             <option value="0" style="background-color:hsl(0, 100%, 100%)">OFF ★</option>
-            <option value="1" style="background-color:hsl(0  , 100%, 90%);">赤</option>
-            <option value="2" style="background-color:hsl(60 , 100%, 90%);">黄</option>
-            <option value="3" style="background-color:hsl(120, 100%, 90%);">緑</option>
-            <option value="4" style="background-color:hsl(180, 100%, 90%)">水</option>
-            <option value="5" style="background-color:hsl(240, 100%, 90%)">青</option>
-            <option value="6" style="background-color:hsl(300, 100%, 90%)">紫</option>
+            <option value="1" style="background-color:hsl(0  , 100%, 85%);">赤</option>
+            <option value="2" style="background-color:hsl(60 , 100%, 85%);">黄</option>
+            <option value="3" style="background-color:hsl(120, 100%, 85%);">緑</option>
+            <option value="4" style="background-color:hsl(180, 100%, 85%)">水</option>
+            <option value="5" style="background-color:hsl(240, 100%, 85%)">青</option>
+            <option value="6" style="background-color:hsl(300, 100%, 85%)">紫</option>
           </select>
           
         </div>
@@ -97,7 +97,7 @@
       <!-- 下編集フォーム -->
       <form id="bottom_form">
         <!--
-        <div id="ansmode_switch">
+        <div id="switchmode_form">
           <input type="radio" name="modeselect" id="opform_qmode" value="question" checked
                  title="問題入力モード(F2)">
           <label for="opform_qmode">問題入力</label>
@@ -106,19 +106,29 @@
                  title="解答入力モード(F2)">
           <label for="opform_amode">解答入力</label>
         </div>
-        --> 
-        <div id="bottom_buttons">
-          <!--
+        -->
+        <div id="edit_form">
           <button type="button" name="undo" id="opform_undo" title="操作を一つ戻します">
             <i class="fas fa-undo"></i>
           </button>
           <button type="button" name="redo" id="opform_redo" title="操作を一つ進めます">
             <i class="fas fa-redo"></i>
           </button>
-          -->
-          <button type="button" name="ansclear" id="opform_clear" title="解答を消去します">
+        </div>
+        <div id="clear_form">
+          <button type="button" name="clear" id="opform_clear" title="解答を消去します">
             解答消去
           </button>
+          <select id="clear_color" name="clear_color">
+            <option value="0">全ての色</option>
+            <option value="1" style="color:hsl(0, 100%, 50%);">赤</option>
+            <option value="2" style="color:hsl(40, 100%, 40%);">黄</option>
+            <option value="3" style="color:hsl(120, 100%, 30%);">緑</option>
+            <option value="4" style="color:hsl(180, 100%, 40%);">水</option>
+            <option value="5" style="color:hsl(240, 100%, 50%);">青</option>
+            <option value="6" style="color:hsl(300, 100%, 50%);">紫</option>
+            <option value="7" style="color:hsl(0, 0%, 30%);">灰</option>
+          </select>
         </div>
       </form>
 

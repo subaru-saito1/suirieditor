@@ -298,23 +298,24 @@ class Drawer {
     };
     this.colorid_in = 3;    // 現在のテキスト色ID
     this.colors_in_list = [
-      [0  , 0  , 0.3 ],  // 0: gray
+      [0  , 1.0, 0.3 ],  // 0: dummy (default green)
       [0  , 1.0, 0.5 ],  // 1: red
       [40 , 1.0, 0.4 ],  // 2: yellow
       [120, 1.0, 0.3 ],  // 3: green (def)
       [180, 1.0, 0.4 ],  // 4: cyan
       [240, 1.0, 0.5 ],  // 5: blue
       [300, 1.0, 0.5 ],  // 6: purple
+      [0  , 0  , 0.3 ],  // 7: gray
     ];
     this.colorid_bg = 0;
     this.colors_bg_list = [
       [0  , 0  , 1.0 ],  // 0: white
-      [0  , 1.0, 0.9],  // 1: red
-      [60 , 1.0, 0.9],  // 2: yellow
-      [120, 1.0, 0.9],  // 3: green (def)
-      [180, 1.0, 0.9],  // 4: cyan
-      [240, 1.0, 0.9],  // 5: blue
-      [300, 1.0, 0.9],  // 6: purple
+      [0  , 1.0, 0.85],  // 1: red
+      [60 , 1.0, 0.85],  // 2: yellow
+      [120, 1.0, 0.85],  // 3: green (def)
+      [180, 1.0, 0.85],  // 4: cyan
+      [240, 1.0, 0.85],  // 5: blue
+      [300, 1.0, 0.85],  // 6: purple
     ]
     this.fontratio = 0.7;
     this.fontdivide = 1.6;
@@ -695,7 +696,7 @@ class Drawer {
     let highlight_color = base_color;
     if (this.isHighlightTarget(bi, bj, i, j)) {
       if (base_color_id == 0) {
-        highlight_color = [base_color[0], base_color[1], base_color[2] - 0.05];
+        highlight_color = [base_color[0], base_color[1], base_color[2] - 0.08];
       } else {
         highlight_color = [base_color[0], base_color[1] - 0.2, base_color[2]];
       }

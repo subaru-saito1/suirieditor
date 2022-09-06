@@ -1,2 +1,4 @@
 sample/
 css/*.map
+.sass-cache
+css/.sass-cache
