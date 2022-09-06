@@ -71,6 +71,30 @@ class Board {
   }
 
   /**
+   * セルの読み込み
+   * ほとんど上のコードの使い回し
+   */
+  readCells(src_cells) {
+    this.cells = [];
+    for (let bi = 0; bi < this.numElems - 1; bi++) {
+      this.cells.push([]);
+      for (let bj = 0; bj < this.numElems - 1 - bi; bj++) {
+        this.cells[bi].push([]);
+        for (let i = 0; i < this.numItems; i++) {
+          this.cells[bi][bj].push([]);
+          for (let j = 0; j < this.numItems; j++) {
+            let cell_obj = {};
+            cell_obj.contents = src_cells[bi][bj][i][j].contents;
+            cell_obj.textcolor = src_cells[bi][bj][i][j].textcolor;
+            cell_obj.bgcolor = src_cells[bi][bj][i][j].bgcolor;
+            this.cells[bi][bj][i].push(cell_obj);
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * JSON形式オブジェクトを読込
    */
   readJson(obj) {
@@ -100,8 +124,8 @@ class Board {
       }
       this.elements.push(el);
     }
-    this.calcItemSize();  // 項目の最大長を計算
-    this.initCells();     // セルの初期化 (todo: jsonの中身を反映)
+    this.readCells(obj.cells);  // セルの内容をコピー
+    this.calcItemSize();        // 項目の最大長を計算
   }
 
   
@@ -114,6 +138,7 @@ class Board {
     obj.numElems = this.numElems;
     obj.numItems = this.numItems;
     obj.elements = this.elements;
+    obj.cells = this.cells;        // セルの内容も保存できるよう変更しました。
     return JSON.stringify(obj, null, 2);
   }
 
