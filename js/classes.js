@@ -221,23 +221,35 @@ class Board {
    * color_id: 削除する色
    */
   clearAns(color_id=0) {
+    let action = new Action();
     for (let bi = 0; bi < this.numElems - 1; bi++) {
       for (let bj = 0; bj < this.numElems - bi - 1; bj++) {
         for (let i = 0; i < this.numItems; i++) {
           for (let j = 0; j < this.numItems; j++) {
+            const pv = this.cells[bi][bj][i][j].contents;
+            const pc = this.cells[bi][bj][i][j].textcolor;
             if (color_id == 0) {
               // 解答全削除
-              this.cells[bi][bj][i][j].contents = '';
-              this.cells[bi][bj][i][j].textcolor = 0;
               this.cells[bi][bj][i][j].bgcolor = 0;
+              if (pv != '' || pc != 3) {
+                this.cells[bi][bj][i][j].contents = '';
+                this.cells[bi][bj][i][j].textcolor = 3;
+                action.oplist.push(new AtomicAction(bi, bj, i, j, pv, pc, '', 3));
+              }
             } else if (color_id == this.cells[bi][bj][i][j].textcolor) {
               // 色指定で削除する場合、背景色は残しておく
-              this.cells[bi][bj][i][j].contents = '';
-              this.cells[bi][bj][i][j].textcolor = 0;
+              if (pv != '' || pc != 3) {
+                this.cells[bi][bj][i][j].contents = '';
+                this.cells[bi][bj][i][j].textcolor = 3;
+                action.oplist.push(new AtomicAction(bi, bj, i, j, pv, pc, '', 3));
+              }
             }
           }
         }
       }
+    }
+    if (action.oplist.length > 0) {
+      Suiripuz.astack.push(action);
     }
   }
 
