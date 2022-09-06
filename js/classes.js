@@ -249,24 +249,33 @@ class Board {
     // 通常入力モード
     if (Suiripuz.config.inputmode === 'text') {
       const current_val = this.cells[bi][bj][i][j].contents;
-      this.cells[bi][bj][i][j].textcolor = Suiripuz.drawer.colorid_in;
+      const current_color = this.cells[bi][bj][i][j].textcolor;
+      let next_val = '';
+      let next_color = Suiripuz.drawer.colorid_in;
+      
       if (button === 0) {         // 左クリック
         if (current_val=== '') {
-          this.cells[bi][bj][i][j].contents = 'o';
+          next_val = 'o';
         } else if (current_val === 'o') {
-          this.cells[bi][bj][i][j].contents = 'x';
+          next_val = 'x';
         } else {
-          this.cells[bi][bj][i][j].contents = '';
+          next_val = '';
         }
       } else if (button === 2) {  //右クリック
         if (current_val === '') {
-          this.cells[bi][bj][i][j].contents = 'x';
+          next_val = 'x';
         } else if (current_val === 'x') {
-          this.cells[bi][bj][i][j].contents = 'o';
+          next_val = 'o';
         } else {
-          this.cells[bi][bj][i][j].contents = '';
+          next_val = '';
         }
+      } else {
+        // 他のボタンの場合は何もしないで終わる
+        return;
       }
+      Suiripuz.astack.push(new Action([new AtomicAction(bi, bj, i, j, current_val, current_color, next_val, next_color)]));
+      this.cells[bi][bj][i][j].contents = next_val;
+      this.cells[bi][bj][i][j].textcolor = next_color;
     }
     // 背景色変更モード
     else if (Suiripuz.config.inputmode === 'bg') {

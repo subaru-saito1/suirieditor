@@ -12,7 +12,7 @@
 // グローバルオブジェクト設定
 let Suiripuz = {}
 
-// Suiripuz.astack = new ActionStack();
+Suiripuz.astack = new ActionStack();
 Suiripuz.board = new Board();
 Suiripuz.config = {
   qamode: 'question',   // question or answer

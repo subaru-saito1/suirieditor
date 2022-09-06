@@ -186,13 +186,15 @@ function setAmode(evt) {
  * 戻る
  */
 function undoAction(evt) {
-  console.log('戻る');
+  Suiripuz.astack.undo();
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 /**
  * 進む
  */
 function redoAction(evt) {
-  console.log('進む');
+  Suiripuz.astack.redo();
+  Suiripuz.drawer.drawCanvas(Suiripuz.board);
 }
 
 /**
