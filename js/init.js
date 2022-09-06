@@ -61,8 +61,8 @@ function setEventHandler() {
   $('canvas').click(clickBoard);
   $('canvas').on('contextmenu', clickBoard);  // 右クリック上書き
   $('canvas').mousemove(trackBoard);
+  $('body').keydown(keyDownBoard);
   /*
-  $('canvas').keydown(keyDownBoard);
   $('canvas').blur(blurBoard);
   */
   
