@@ -124,7 +124,11 @@ class Board {
       }
       this.elements.push(el);
     }
-    this.readCells(obj.cells);  // セルの内容をコピー
+    if (obj.cells) {
+      this.readCells(obj.cells);
+    } else {
+      this.initCells();
+    }
     this.calcItemSize();        // 項目の最大長を計算
   }
 
